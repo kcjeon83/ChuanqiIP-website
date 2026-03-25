@@ -908,19 +908,105 @@ footer {
 }
 
 /* ─── RESPONSIVE ─── */
+
+/* 태블릿 */
 @media (max-width: 1100px) {
-  .showcase { grid-template-columns: 1fr; gap: 80px; }
-  .game-card.pos-1 { width: 100%; max-width: 500px; height: 280px; }
-  .game-card.pos-2 { width: 90%; max-width: 440px; height: 240px; left: 5%; }
-  .game-card.pos-3 { width: 80%; max-width: 380px; height: 200px; left: 10%; }
+  .showcase {
+    grid-template-columns: 1fr;
+    gap: 60px;
+    padding: 100px 40px;
+  }
+  .game-card-stack { height: 420px; }
+  .recruit-section { grid-template-columns: 1fr; gap: 60px; padding: 100px 40px; }
+  .recruit-visual { height: 480px; }
+  .rb-1 { width: 320px; height: 420px; }
+  .rb-2 { width: 260px; height: 320px; top: 150px; left: 250px; }
+  .rb-3 { width: 210px; height: 240px; top: 360px; left: 90px; }
 }
-@media (max-width: 900px) {
-  .recruit-section { grid-template-columns: 1fr; }
-  nav { padding: 20px 30px; }
+
+/* 모바일 */
+@media (max-width: 768px) {
+
+  /* NAV */
+  nav { padding: 18px 20px; }
+  nav.scrolled { padding: 14px 20px; }
+  .nav-logo { font-size: 18px; }
   .nav-links { display: none; }
-  section { padding: 100px 30px; }
-  .recruit-visual { height: 500px; margin-bottom: 40px; }
-  .contact-section { padding: 100px 30px; }
-  .footer-info { text-align: left; margin-top: 20px; }
-  footer { flex-direction: column; align-items: flex-start; }
+  .nav-right { gap: 16px; }
+  .nav-lang { display: none; }
+  .nav-yt { margin-right: 0; }
+
+  /* HERO */
+  .hero-logo-img { width: clamp(240px, 80vw, 420px); }
+  .hero-sub { font-size: 14px; padding: 0 16px; }
+  .scroll-indicator { bottom: 28px; }
+
+  /* SHOWCASE */
+  .showcase {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 80px 20px;
+    min-height: auto;
+  }
+  .section-heading { font-size: clamp(36px, 10vw, 60px); }
+  .game-card-stack { height: 280px; }
+  .showcase-stats { gap: 28px; margin-top: 36px; }
+  .stat-num { font-size: 36px; }
+  .card-arrow { width: 36px; height: 36px; font-size: 14px; }
+
+  /* NEWS */
+  .news-section { padding: 80px 0 80px 20px; }
+  .news-header { padding-right: 20px; margin-bottom: 40px; }
+  .news-card { flex: 0 0 clamp(260px, 78vw, 340px); }
+  .news-scroll-track { gap: 16px; padding-right: 20px; }
+  .news-title { font-size: 16px; }
+  .news-card-content { padding: 14px 16px; }
+
+  /* MARQUEE */
+  .marquee-item { width: 280px; height: 180px; }
+  .marquee-section { padding: 60px 0; }
+  .marquee-section .section-heading { font-size: 28px; margin-bottom: 32px; }
+
+  /* RECRUIT */
+  .recruit-section {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 80px 20px;
+  }
+  .recruit-visual { height: 320px; }
+  .rb-1 { width: 200px; height: 260px; top: 0; left: 0; }
+  .rb-2 { width: 160px; height: 200px; top: 90px; left: 160px; }
+  .rb-3 { width: 130px; height: 150px; top: 220px; left: 60px; }
+  .rb-num { font-size: 40px; }
+  .rb-content { padding: 20px; }
+  .recruit-perks { margin-top: 24px; }
+  .perk { padding: 16px 0; }
+  .perk-text { font-size: 13px; }
+  .cta-group { flex-direction: column; align-items: stretch; margin-top: 32px; }
+  .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+
+  /* CONTACT */
+  .contact-section { padding: 100px 20px; }
+  .contact-email { font-size: clamp(14px, 4vw, 22px); margin: 24px 0; }
+
+  /* FOOTER */
+  footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-info { text-align: left; font-size: 11px; }
+}
+
+/* 소형 모바일 */
+@media (max-width: 480px) {
+  .hero-sub { font-size: 13px; }
+  .game-card-stack { height: 240px; }
+  .card-title { font-size: 26px; }
+  .news-card { flex: 0 0 82vw; }
+  .recruit-visual { height: 280px; }
+  .rb-1 { width: 170px; height: 220px; }
+  .rb-2 { width: 140px; height: 170px; top: 80px; left: 140px; }
+  .rb-3 { width: 110px; height: 130px; top: 190px; left: 50px; }
+  .section-heading { font-size: clamp(30px, 9vw, 48px); }
+  .showcase { padding: 60px 16px; }
+  .news-section { padding: 60px 0 60px 16px; }
+  .recruit-section { padding: 60px 16px; }
+  .contact-section { padding: 80px 16px; }
 }

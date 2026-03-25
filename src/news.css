@@ -225,7 +225,20 @@ body {
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
-  .news-nav { padding: 20px 24px; }
-  .article-hero-content { padding: 0 24px; bottom: 48px; }
-  .article-footer { flex-direction: column; gap: 16px; padding: 32px 24px; }
+  .news-nav { padding: 18px 20px; }
+  .news-nav-logo { font-size: 16px; }
+  .article-header {
+    padding: 110px 20px 36px;
+  }
+  .article-title { font-size: clamp(20px, 6vw, 32px); }
+  .article-body {
+    padding: 48px 20px 72px;
+    gap: 20px;
+  }
+  .article-lead { font-size: 16px; }
+  .article-body p { font-size: 15px; }
+  .article-img { aspect-ratio: 16/9; }
+  .article-quote { padding: 16px 20px; font-size: 15px; }
+  .article-related { padding: 0 20px 80px; }
+  .article-footer { flex-direction: column; gap: 12px; padding: 28px 20px; }
 }
