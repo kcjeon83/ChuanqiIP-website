@@ -18,9 +18,16 @@
         <li><a href="#recruit">Recruit</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <div class="nav-lang">
-        <a href="#" class="active" onclick="event.preventDefault()">KR</a>
-        <a href="#" onclick="event.preventDefault()">EN</a>
+      <div class="nav-actions">
+        <div class="nav-lang">
+          <a href="#" class="active" onclick="event.preventDefault()">KR</a>
+          <a href="#" onclick="event.preventDefault()">EN</a>
+        </div>
+        <a href="https://www.youtube.com/@thelegendofmir" target="_blank" rel="noopener" class="nav-yt" aria-label="YouTube">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
       </div>
     </div>
   </nav>
@@ -29,6 +36,12 @@
   <div class="hero-wrapper" id="hero">
     <section class="hero">
       <div class="hero-bg"></div>
+
+      <!-- BG VIDEO -->
+      <video class="hero-video" autoplay loop muted playsinline>
+        <source src="/video/hero.mp4" type="video/mp4">
+      </video>
+
       <div class="hero-grid"></div>
       <div class="orb orb-1"></div>
       <div class="orb orb-2"></div>
@@ -50,6 +63,7 @@
               fill="url(#goldGrad)" letter-spacing="10">CHUANQI IP</text>
           </svg>
         </div>
+        <p class="hero-sub">경계를 허무는 상상력, 미르 IP의 무한한 확장<br>게임을 넘어 문화와 플랫폼을 잇는 글로벌 IP 리더로 도약합니다.</p>
       </div>
 
       <div class="scroll-indicator">
@@ -63,47 +77,65 @@
   <section class="showcase" id="games">
     <div class="showcase-left">
       <h2 class="section-heading reveal reveal-delay-1">GAMES</h2>
-      <p class="section-body reveal reveal-delay-2">
+      <p class="section-body showcase-desc reveal reveal-delay-2" id="showcaseDesc">
         미르의 전설2는 1세대 온라인 게임의 흐름을 바꾼 상징적인 작품입니다. 탄탄한 세계관과 전투 시스템, 그리고 무협의 미학을 바탕으로 MMORPG 장르의 가능성을 처음으로 제시했습니다.
       </p>
       <div class="showcase-stats reveal reveal-delay-3">
         <div class="stat">
-          <div class="stat-num">2억+</div>
-          <div class="stat-label">Total Players</div>
+          <div class="stat-num" id="statPlayers">2억+</div>
+          <div class="stat-label" id="statPlayersLabel">Total Players</div>
+        </div>
+        <div class="stat" id="statRevenueWrap">
+          <div class="stat-num" id="statRevenue">2.2조</div>
+          <div class="stat-label" id="statRevenueLabel">Total Revenue</div>
         </div>
         <div class="stat">
-          <div class="stat-num">2.2조</div>
-          <div class="stat-label">Total Revenue</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">25y</div>
-          <div class="stat-label">In Service</div>
+          <div class="stat-num" id="statService">25y</div>
+          <div class="stat-label" id="statServiceLabel">In Service</div>
         </div>
       </div>
     </div>
 
     <div class="showcase-right reveal reveal-delay-2">
       <div class="game-card-stack" id="cardStack">
-        <div class="game-card" style="background: linear-gradient(135deg, #0f1a2a 0%, #1a3a5a 100%);">
-          <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=1040&auto=format&fit=crop" class="card-art" alt="">
-          <div class="card-overlay">
-            <div class="card-title">MIR 3</div>
-            <div class="card-genre">Action RPG</div>
-          </div>
+        <div class="game-card" data-game="0">
+          <a href="https://mir2-event.mironline.co.kr/11101110001100101" target="_blank" rel="noopener" class="card-link">
+            <img src="/img/slide1.jpg" class="card-art" alt="MIR 2">
+            <div class="card-overlay">
+              <div class="card-title">MIR 2</div>
+              <div class="card-genre">MMORPG</div>
+            </div>
+          </a>
         </div>
-        <div class="game-card" style="background: linear-gradient(135deg, #0f1a2a 0%, #1a3a5a 100%);">
-          <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=1040&auto=format&fit=crop" class="card-art" alt="">
-          <div class="card-overlay">
-            <div class="card-title">MIR 2</div>
-            <div class="card-genre">RPG</div>
-          </div>
+        <div class="game-card" data-game="1">
+          <a href="https://mir3-event.mironline.co.kr/11101110100010000?p=3cfada52&s=3d0ffa053d1704963d1e0f273d1e0f273d170496&f=3d1e0f273d1704963d08ef74" target="_blank" rel="noopener" class="card-link">
+            <img src="/img/slide2.jpg" class="card-art" alt="MIR 3">
+            <div class="card-overlay">
+              <div class="card-title">MIR 3</div>
+              <div class="card-genre">Action RPG</div>
+            </div>
+          </a>
         </div>
-        <div class="game-card" style="background: linear-gradient(135deg, #0f1a2a 0%, #1a3a5a 100%);">
-          <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=1040&auto=format&fit=crop" class="card-art" alt="">
-          <div class="card-overlay">
-            <div class="card-title">NEW PROJECT</div>
-            <div class="card-genre">Action · Openworld</div>
-          </div>
+        <div class="game-card" data-game="2">
+          <a href="https://jkctestsite.vercel.app/" target="_blank" rel="noopener" class="card-link">
+            <img src="/img/slide3.jpg" class="card-art" alt="NEW PROJECT">
+            <div class="card-overlay">
+              <div class="card-title">NEW PROJECT</div>
+              <div class="card-genre">Action · Openworld</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- 카드 네비게이션 -->
+      <div class="card-nav">
+        <div class="card-dots">
+          <button class="card-dot active" data-idx="0"></button>
+          <button class="card-dot" data-idx="1"></button>
+          <button class="card-dot" data-idx="2"></button>
+        </div>
+        <div class="card-arrows">
+          <button class="card-arrow" id="cardPrev">←</button>
+          <button class="card-arrow" id="cardNext">→</button>
         </div>
       </div>
     </div>
@@ -120,36 +152,44 @@
 
     <div class="news-scroll-track">
       <div class="news-card">
-        <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #c9a44a22);"></div>
-        <div class="news-card-content">
-          <div class="news-title">Combat System Overhaul — Rethinking Every Frame of Action</div>
-          <div class="news-date">2026.03.15</div>
-        </div>
-        <div class="news-num">01</div>
+        <a href="/news/mir2-25th.html" class="news-card-link">
+          <div class="news-card-img" style="background-image:url('/img/slide1.jpg'); background-size:cover; background-position:center;"></div>
+          <div class="news-card-content">
+            <div class="news-title news-title--clamp">위메이드, '미르의 전설2' 서비스 25주년 기념 대규모 이벤트</div>
+            <div class="news-date">2026.03.15</div>
+          </div>
+          <div class="news-num">01</div>
+        </a>
       </div>
       <div class="news-card">
-        <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #4a6ec922);"></div>
-        <div class="news-card-content">
-          <div class="news-title">Aeterna Chronicles Closed Beta — 1.2M Applications Received</div>
-          <div class="news-date">2026.02.28</div>
-        </div>
-        <div class="news-num">02</div>
+        <a href="/news/mir2-update.html" class="news-card-link">
+          <div class="news-card-img" style="background-image:url('/img/new_2.jpg'); background-size:cover; background-position:center;"></div>
+          <div class="news-card-content">
+            <div class="news-title news-title--clamp">'미르의 전설2', 중레벨 성장 시스템 업데이트 및 2026 로드맵 발표</div>
+            <div class="news-date">2026.02.12</div>
+          </div>
+          <div class="news-num">02</div>
+        </a>
       </div>
       <div class="news-card">
-        <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #c94a4a22);"></div>
-        <div class="news-card-content">
-          <div class="news-title">World-Building in Setera: The Art of Cosmic Horror Environments</div>
-          <div class="news-date">2026.01.10</div>
-        </div>
-        <div class="news-num">03</div>
+        <a href="/news/mir2-field.html" class="news-card-link">
+          <div class="news-card-img" style="background-image:url('/img/new_3.jpg'); background-size:cover; background-position:center;"></div>
+          <div class="news-card-content">
+            <div class="news-title news-title--clamp">위메이드, '미르의 전설2' 신규 필드 '백룡담촌' 업데이트 실시</div>
+            <div class="news-date">2026.01.10</div>
+          </div>
+          <div class="news-num">03</div>
+        </a>
       </div>
       <div class="news-card">
-        <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #4ac99822);"></div>
-        <div class="news-card-content">
-          <div class="news-title">Strategic Partnership Announced for Global Publishing</div>
-          <div class="news-date">2025.12.05</div>
-        </div>
-        <div class="news-num">04</div>
+        <a href="/news/mir3-dungeon.html" class="news-card-link">
+          <div class="news-card-img" style="background-image:url('/img/new_4.jpg'); background-size:cover; background-position:center;"></div>
+          <div class="news-card-content">
+            <div class="news-title news-title--clamp">위메이드 '미르의 전설3', 신규 시공 던전 '망의 숲 심연' 업데이트</div>
+            <div class="news-date">2025.11.06</div>
+          </div>
+          <div class="news-num">04</div>
+        </a>
       </div>
       <div class="news-card">
         <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #a84ac922);"></div>
@@ -159,6 +199,30 @@
         </div>
         <div class="news-num">05</div>
       </div>
+      <div class="news-card">
+        <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #c9a44a22);"></div>
+        <div class="news-card-content">
+          <div class="news-title">Global IP Expansion — ChuanqiIP Enters Southeast Asian Markets</div>
+          <div class="news-date">2025.10.30</div>
+        </div>
+        <div class="news-num">06</div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #4ac9c922);"></div>
+        <div class="news-card-content">
+          <div class="news-title">MIR IP 25th Anniversary — The Legacy Lives On</div>
+          <div class="news-date">2025.09.12</div>
+        </div>
+        <div class="news-num">07</div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #6ec94a22);"></div>
+        <div class="news-card-content">
+          <div class="news-title">New Project Reveal: Unreal Engine 5 Powered Open World MMORPG</div>
+          <div class="news-date">2025.08.05</div>
+        </div>
+        <div class="news-num">08</div>
+      </div>
     </div>
   </section>
 
@@ -166,40 +230,42 @@
   <div class="marquee-section">
     <h2 class="section-heading" style="text-align: center; margin-bottom: 48px;">OUR STUDIO SPACE</h2>
     <div class="marquee-track" id="marqueeTrack">
-      <div class="marquee-item"><div class="marquee-item-inner mq-1" data-label="Main Hall"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-2" data-label="Art Studio"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-3" data-label="Engineering"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-4" data-label="Motion Capture"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-5" data-label="Sound Stage"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-6" data-label="Lounge"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-1" data-label="Main Hall"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-2" data-label="Art Studio"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-3" data-label="Engineering"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-4" data-label="Motion Capture"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-5" data-label="Sound Stage"></div></div>
-      <div class="marquee-item"><div class="marquee-item-inner mq-6" data-label="Lounge"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_1.jpg'); background-size:cover; background-position:center;" data-label="Studio 01"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_2.jpg'); background-size:cover; background-position:center;" data-label="Studio 02"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_3.jpg'); background-size:cover; background-position:center;" data-label="Studio 03"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_4.jpg'); background-size:cover; background-position:center;" data-label="Studio 04"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_5.jpg'); background-size:cover; background-position:center;" data-label="Studio 05"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_6.jpg'); background-size:cover; background-position:center;" data-label="Studio 06"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_7.jpg'); background-size:cover; background-position:center;" data-label="Studio 07"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_1.jpg'); background-size:cover; background-position:center;" data-label="Studio 01"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_2.jpg'); background-size:cover; background-position:center;" data-label="Studio 02"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_3.jpg'); background-size:cover; background-position:center;" data-label="Studio 03"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_4.jpg'); background-size:cover; background-position:center;" data-label="Studio 04"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_5.jpg'); background-size:cover; background-position:center;" data-label="Studio 05"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_6.jpg'); background-size:cover; background-position:center;" data-label="Studio 06"></div></div>
+      <div class="marquee-item"><div class="marquee-item-inner" style="background-image:url('/img/studio_7.jpg'); background-size:cover; background-position:center;" data-label="Studio 07"></div></div>
     </div>
   </div>
 
   <!-- RECRUIT -->
   <section class="recruit-section" id="recruit">
     <div class="recruit-visual reveal">
-      <div class="recruit-box rb-1">
+      <div class="recruit-box rb-1" style="background-image:url('/img/recruit_1.jpg'); background-size:cover; background-position:center;">
         <div class="rb-content">
-          <div class="rb-num">200+</div>
-          <div class="rb-text">Developers Worldwide</div>
+          <div class="rb-num">1,800+</div>
+          <div class="rb-text">Professionals Worldwide</div>
         </div>
       </div>
-      <div class="recruit-box rb-2">
+      <div class="recruit-box rb-2" style="background-image:url('/img/recruit_2.jpg'); background-size:cover; background-position:center;">
         <div class="rb-content">
-          <div class="rb-num">18+</div>
-          <div class="rb-text">Active Positions</div>
+          <div class="rb-num">5</div>
+          <div class="rb-text">Global Offices</div>
         </div>
       </div>
-      <div class="recruit-box rb-3">
+      <div class="recruit-box rb-3" style="background-image:url('/img/recruit_3.jpg'); background-size:cover; background-position:center;">
         <div class="rb-content">
-          <div class="rb-num">AAA</div>
-          <div class="rb-text">Studio Grade</div>
+          <div class="rb-num">25Y</div>
+          <div class="rb-text">Game Experience</div>
         </div>
       </div>
     </div>
@@ -209,45 +275,42 @@
         <h2 class="section-heading">RECRUIT</h2>
       </div>
       <p class="section-body reveal reveal-delay-2">
-        We're seeking extraordinary creators — engineers, artists, designers,
-        and storytellers who refuse to settle for good enough.
-        Challenge yourself alongside the best in the industry.
+        We Dare, We Create, We Transform.<br>
+        25년의 게임 개발 경험을 바탕으로 AI와 블록체인 기술을 접목해
+        게임의 새로운 패러다임을 만들어갑니다.
+        함께 상상을 현실로 만들어 나갈 인재를 기다립니다.
       </p>
       <div class="recruit-perks reveal reveal-delay-3">
-        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">Flexible Remote & Hybrid Culture</div></div>
-        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">Stock Options & Profit Sharing</div></div>
-        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">World-Class Hardware & Tools</div></div>
-        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">Annual Global Game Conference Budget</div></div>
-        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">Mentorship from AAA Veterans</div></div>
+        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">월 26만 식사포인트 + 무료 사내 카페 음료</div></div>
+        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">연 200만 복지포인트</div></div>
+        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">매년 종합건강검진 · 사내 스포츠센터 · 제휴 휴양시설</div></div>
+        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">본인 및 가족 단체상해보험</div></div>
+        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">자녀 유치원~대학교 학자금 지원</div></div>
+        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">장기근속축하금 · 경조금 및 경조휴가</div></div>
+        <div class="perk"><div class="perk-icon">◈</div><div class="perk-text">직무 관련 교육 · 수면실 · 샤워룸 등 사내 편의시설</div></div>
       </div>
       <div class="cta-group reveal reveal-delay-4">
-        <a href="#recruit" class="btn-primary" onclick="event.preventDefault()"><span>View Open Roles</span></a>
-        <a href="#recruit" class="btn-ghost" onclick="event.preventDefault()">Our Culture</a>
+        <a href="https://recruit.wemade.com/d0pt054k" target="_blank" rel="noopener" class="btn-primary"><span>채용 공고 보기</span></a>
+        <a href="https://recruit.wemade.com/" target="_blank" rel="noopener" class="btn-ghost">Our Culture</a>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section class="contact-section" id="contact">
+    <iframe
+      class="contact-map"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d792.3851937361758!2d127.11145295345534!3d37.40069114208823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9e240b600f4f%3A0x4f57774164de63d8!2z7JyE66mU7J2065Oc!5e0!3m2!1sko!2skr!4v1774426600124!5m2!1sko!2skr"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <div class="contact-map-overlay"></div>
     <div class="reveal">
       <h2 class="section-heading">CONTACT</h2>
     </div>
-    <p class="contact-sub reveal reveal-delay-1">
-      For partnership inquiries, press, and business opportunities —
-      we'd love to hear from you.
-    </p>
     <div class="reveal reveal-delay-2">
       <a href="mailto:mirhelp@wemade.com" class="contact-email"><span>mirhelp@wemade.com</span></a>
-    </div>
-    <div class="social-links reveal reveal-delay-3">
-      <a href="#" class="social-link" onclick="event.preventDefault()">Twitter / X</a>
-      <a href="#" class="social-link" onclick="event.preventDefault()">YouTube</a>
-      <a href="#" class="social-link" onclick="event.preventDefault()">Discord</a>
-      <a href="#" class="social-link" onclick="event.preventDefault()">Steam</a>
-      <a href="#" class="social-link" onclick="event.preventDefault()">LinkedIn</a>
-    </div>
-    <div class="reveal reveal-delay-4" style="margin-top:64px; font-size:12px; letter-spacing:2px; color:rgba(240,238,232,0.2);">
-      성남시 분당구 대왕판교로644번길 49 위믹스타워 6F · 신분당선 판교역 1번출구 도보 10분
     </div>
   </section>
 
@@ -259,7 +322,14 @@
       </svg>
     </div>
     <div class="footer-info">
-      <div style="margin-bottom: 8px;">개인정보처리방침 · 이용약관</div>
+      <div style="margin-bottom: 6px; font-size:12px; letter-spacing:1px; color:rgba(240,238,232,0.5);">
+        성남시 분당구 대왕판교로644번길 49 위믹스타워 6F
+      </div>
+      <div style="margin-bottom: 8px;">
+        <a href="https://mir2-onestop.mironline.co.kr/support/terms?termsCategory=privacy" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='#c9a44a'" onmouseout="this.style.color='inherit'">개인정보처리방침</a>
+        &nbsp;·&nbsp;
+        <a href="https://mir2-onestop.mironline.co.kr/support/terms?termsCategory=service" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='#c9a44a'" onmouseout="this.style.color='inherit'">이용약관</a>
+      </div>
       <div>COPYRIGHT © 2026 CHUANQI IP Co., Ltd. ALL RIGHTS RESERVED.</div>
     </div>
   </footer>
