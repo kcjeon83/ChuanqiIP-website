@@ -31,7 +31,7 @@ document.querySelector('.hero').addEventListener('mouseleave', () => {
 // ─── 2. NAV SCROLL EFFECT ───
 const nav = document.getElementById('nav')
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60)
+  nav.classList.toggle('scrolled', window.scrollY > 10)
 })
 
 // ─── 3. HERO SCROLL PARALLAX ───
