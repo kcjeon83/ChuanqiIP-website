@@ -29,3 +29,96 @@
 [31612:1] 2026-03-25 10:38:37.589 [0x4748(183) CxSensorPipeClient::Uninitialize] [Uninitialize]
 [31612:1] 2026-03-25 10:38:37.589 [0x4748(183) CxSensorPipeClient::Uninitialize] [/Uninitialize]
 [31612:1] 2026-03-25 10:38:37.590 [0x4748(183) CxConsoleMonitor::Uninitialize] [/Uninitialize] SUCCESS
+[32068:1] 2026-03-25 11:16:36.825 [0x9934(5) InitializeLog] [SET_LOGPATH] %programdata%\Geni\Insights\logs\cmon.cmd.exe.log
+[32068:1] 2026-03-25 11:16:36.826 [0x9934(0) CxCommonApi::LogModuleInfo] [MODULE LOADING] ModuleName cmon64.dll, Version [2.0.0.1], ModulePath C:\Program Files\Geni\Insights\temp\cmon64.dll ModifiedTime 2025-11-13 19:02:54
+[32068:1] 2026-03-25 11:16:36.826 [0x9934(183) CxConsoleMonitor::Initialize] [Initialize]
+[32068:1] 2026-03-25 11:16:36.827 [0x9934(183) CxSensorPipeClient::Initialize] [Initialize]
+[32068:1] 2026-03-25 11:16:36.827 [0x9934(0) CxThreadPool::Initialize] Queue init : OutputQue 0, nThreadPoolSize : 1
+[32068:1] 2026-03-25 11:16:36.827 [0x9934(183) CxThreadPool::CreateThreadPool] Create 1 WorkerThread
+[32068:1] 2026-03-25 11:16:36.828 [0x9934(183) CxConsoleMonitor::InstallHook] [InstallHook]
+[32068:1] 2026-03-25 11:16:36.829 [0x9934(126) CxConsoleMonitor::xGetProcAddress] [GET_PROC_ADDR] ReadConsoleW from kernelbase.dll
+[32068:1] 2026-03-25 11:16:36.829 [0x9934(183) CxConsoleMonitor::InstallHook] [INSTALL_HOOK] ReadConsoleW : cmd.exe:32068
+[32068:1] 2026-03-25 11:16:36.829 [0x9934(183) CxConsoleMonitor::xGetProcAddress] [GET_PROC_ADDR] ReadConsoleInputW from kernelbase.dll
+[32068:1] 2026-03-25 11:16:36.830 [0x9934(183) CxConsoleMonitor::InstallHook] [INSTALL_HOOK] RealReadConsoleInputW : cmd.exe:32068
+[32068:1] 2026-03-25 11:16:36.830 [0x9934(183) CxConsoleMonitor::InstallHook] [SUCCESS]
+[32068:1] 2026-03-25 11:16:36.831 [0x9934(183) CxConsoleMonitor::GetCmonProfileInfo] [REQ_CMON_PROFILE] 
+[32068:1] 2026-03-25 11:16:36.831 [0x9934(0) CxConsoleMonitor::Initialize] [/Initialize] SUCCESS
+[32068:1] 2026-03-25 11:16:36.832 [0x9A58(0) CxThreadPool::ThreadEntry] Worker Thread begins
+[32068:1] 2026-03-25 11:16:36.834 [0x9A58(1) CxSensorPipeClient::SendJson] [SEND][ReqType:4] {
+   "PID" : 32068,
+   "ProcPath" : "C:\\WINDOWS\\system32\\cmd.exe",
+   "ReqType" : "xSensorRequestType_GetCmonProfile"
+}
+
+[32068:1] 2026-03-25 11:16:36.834 [0x9A58(183) CxSensorPipeClient::SendJson] [RECV] {
+   "MaxConsoleInputLength" : 1000
+}
+
+[32068:1] 2026-03-25 11:16:36.835 [0x9A58(183) CxConsoleMonitor::PipeResponseCallback] [RES_CALLBACK]
+[32068:1] 2026-03-25 11:16:36.835 [0x9A58(183) CxConsoleMonitor::PipeResponseCallback] [CMON_PROFILE] MaxConsoleInputLength : 1000
+[32068:1] 2026-03-25 11:16:36.946 [0x9934(126) CxConsoleMonitor::Uninitialize] [Uninitialize]
+[32068:1] 2026-03-25 11:16:36.947 [0x9934(183) CxSensorPipeClient::Uninitialize] [Uninitialize]
+[32068:1] 2026-03-25 11:16:36.948 [0x9934(183) CxSensorPipeClient::Uninitialize] [/Uninitialize]
+[32068:1] 2026-03-25 11:16:36.948 [0x9934(183) CxConsoleMonitor::Uninitialize] [/Uninitialize] SUCCESS
+[39324:1] 2026-03-25 11:20:37.814 [0x7FDC(5) InitializeLog] [SET_LOGPATH] %programdata%\Geni\Insights\logs\cmon.cmd.exe.log
+[39324:1] 2026-03-25 11:20:37.815 [0x7FDC(0) CxCommonApi::LogModuleInfo] [MODULE LOADING] ModuleName cmon64.dll, Version [2.0.0.1], ModulePath C:\Program Files\Geni\Insights\temp\cmon64.dll ModifiedTime 2025-11-13 19:02:54
+[39324:1] 2026-03-25 11:20:37.815 [0x7FDC(183) CxConsoleMonitor::Initialize] [Initialize]
+[39324:1] 2026-03-25 11:20:37.815 [0x7FDC(183) CxSensorPipeClient::Initialize] [Initialize]
+[39324:1] 2026-03-25 11:20:37.816 [0x7FDC(0) CxThreadPool::Initialize] Queue init : OutputQue 0, nThreadPoolSize : 1
+[39324:1] 2026-03-25 11:20:37.816 [0x7FDC(183) CxThreadPool::CreateThreadPool] Create 1 WorkerThread
+[39324:1] 2026-03-25 11:20:37.816 [0x7FDC(183) CxConsoleMonitor::InstallHook] [InstallHook]
+[39324:1] 2026-03-25 11:20:37.818 [0x7FDC(126) CxConsoleMonitor::xGetProcAddress] [GET_PROC_ADDR] ReadConsoleW from kernelbase.dll
+[39324:1] 2026-03-25 11:20:37.818 [0x7FDC(183) CxConsoleMonitor::InstallHook] [INSTALL_HOOK] ReadConsoleW : cmd.exe:39324
+[39324:1] 2026-03-25 11:20:37.819 [0x7FDC(183) CxConsoleMonitor::xGetProcAddress] [GET_PROC_ADDR] ReadConsoleInputW from kernelbase.dll
+[39324:1] 2026-03-25 11:20:37.819 [0x7FDC(183) CxConsoleMonitor::InstallHook] [INSTALL_HOOK] RealReadConsoleInputW : cmd.exe:39324
+[39324:1] 2026-03-25 11:20:37.820 [0x7FDC(183) CxConsoleMonitor::InstallHook] [SUCCESS]
+[39324:1] 2026-03-25 11:20:37.820 [0x7FDC(183) CxConsoleMonitor::GetCmonProfileInfo] [REQ_CMON_PROFILE] 
+[39324:1] 2026-03-25 11:20:37.820 [0x7FDC(0) CxConsoleMonitor::Initialize] [/Initialize] SUCCESS
+[39324:1] 2026-03-25 11:20:37.821 [0x121C(0) CxThreadPool::ThreadEntry] Worker Thread begins
+[39324:1] 2026-03-25 11:20:37.823 [0x121C(1) CxSensorPipeClient::SendJson] [SEND][ReqType:4] {
+   "PID" : 39324,
+   "ProcPath" : "C:\\WINDOWS\\system32\\cmd.exe",
+   "ReqType" : "xSensorRequestType_GetCmonProfile"
+}
+
+[39324:1] 2026-03-25 11:20:37.823 [0x121C(183) CxSensorPipeClient::SendJson] [RECV] {
+   "MaxConsoleInputLength" : 1000
+}
+
+[39324:1] 2026-03-25 11:20:37.824 [0x121C(183) CxConsoleMonitor::PipeResponseCallback] [RES_CALLBACK]
+[39324:1] 2026-03-25 11:20:37.824 [0x121C(183) CxConsoleMonitor::PipeResponseCallback] [CMON_PROFILE] MaxConsoleInputLength : 1000
+[39324:1] 2026-03-25 11:20:37.925 [0x7FDC(126) CxConsoleMonitor::Uninitialize] [Uninitialize]
+[39324:1] 2026-03-25 11:20:37.926 [0x7FDC(183) CxSensorPipeClient::Uninitialize] [Uninitialize]
+[39324:1] 2026-03-25 11:20:37.926 [0x7FDC(183) CxSensorPipeClient::Uninitialize] [/Uninitialize]
+[39324:1] 2026-03-25 11:20:37.927 [0x7FDC(183) CxConsoleMonitor::Uninitialize] [/Uninitialize] SUCCESS
+[20928:1] 2026-03-25 11:22:08.611 [0x93D4(5) InitializeLog] [SET_LOGPATH] %programdata%\Geni\Insights\logs\cmon.cmd.exe.log
+[20928:1] 2026-03-25 11:22:08.612 [0x93D4(0) CxCommonApi::LogModuleInfo] [MODULE LOADING] ModuleName cmon64.dll, Version [2.0.0.1], ModulePath C:\Program Files\Geni\Insights\temp\cmon64.dll ModifiedTime 2025-11-13 19:02:54
+[20928:1] 2026-03-25 11:22:08.612 [0x93D4(183) CxConsoleMonitor::Initialize] [Initialize]
+[20928:1] 2026-03-25 11:22:08.613 [0x93D4(183) CxSensorPipeClient::Initialize] [Initialize]
+[20928:1] 2026-03-25 11:22:08.613 [0x93D4(0) CxThreadPool::Initialize] Queue init : OutputQue 0, nThreadPoolSize : 1
+[20928:1] 2026-03-25 11:22:08.613 [0x93D4(183) CxThreadPool::CreateThreadPool] Create 1 WorkerThread
+[20928:1] 2026-03-25 11:22:08.614 [0x93D4(183) CxConsoleMonitor::InstallHook] [InstallHook]
+[20928:1] 2026-03-25 11:22:08.614 [0x93D4(126) CxConsoleMonitor::xGetProcAddress] [GET_PROC_ADDR] ReadConsoleW from kernelbase.dll
+[20928:1] 2026-03-25 11:22:08.615 [0x93D4(183) CxConsoleMonitor::InstallHook] [INSTALL_HOOK] ReadConsoleW : cmd.exe:20928
+[20928:1] 2026-03-25 11:22:08.615 [0x93D4(183) CxConsoleMonitor::xGetProcAddress] [GET_PROC_ADDR] ReadConsoleInputW from kernelbase.dll
+[20928:1] 2026-03-25 11:22:08.616 [0x93D4(183) CxConsoleMonitor::InstallHook] [INSTALL_HOOK] RealReadConsoleInputW : cmd.exe:20928
+[20928:1] 2026-03-25 11:22:08.616 [0x93D4(183) CxConsoleMonitor::InstallHook] [SUCCESS]
+[20928:1] 2026-03-25 11:22:08.617 [0x93D4(183) CxConsoleMonitor::GetCmonProfileInfo] [REQ_CMON_PROFILE] 
+[20928:1] 2026-03-25 11:22:08.617 [0x93D4(0) CxConsoleMonitor::Initialize] [/Initialize] SUCCESS
+[20928:1] 2026-03-25 11:22:08.618 [0x77A0(0) CxThreadPool::ThreadEntry] Worker Thread begins
+[20928:1] 2026-03-25 11:22:08.620 [0x77A0(1) CxSensorPipeClient::SendJson] [SEND][ReqType:4] {
+   "PID" : 20928,
+   "ProcPath" : "C:\\WINDOWS\\system32\\cmd.exe",
+   "ReqType" : "xSensorRequestType_GetCmonProfile"
+}
+
+[20928:1] 2026-03-25 11:22:08.620 [0x77A0(183) CxSensorPipeClient::SendJson] [RECV] {
+   "MaxConsoleInputLength" : 1000
+}
+
+[20928:1] 2026-03-25 11:22:08.620 [0x77A0(183) CxConsoleMonitor::PipeResponseCallback] [RES_CALLBACK]
+[20928:1] 2026-03-25 11:22:08.621 [0x77A0(183) CxConsoleMonitor::PipeResponseCallback] [CMON_PROFILE] MaxConsoleInputLength : 1000
+[20928:1] 2026-03-25 11:22:08.717 [0x93D4(126) CxConsoleMonitor::Uninitialize] [Uninitialize]
+[20928:1] 2026-03-25 11:22:08.717 [0x93D4(183) CxSensorPipeClient::Uninitialize] [Uninitialize]
+[20928:1] 2026-03-25 11:22:08.718 [0x93D4(183) CxSensorPipeClient::Uninitialize] [/Uninitialize]
+[20928:1] 2026-03-25 11:22:08.718 [0x93D4(183) CxConsoleMonitor::Uninitialize] [/Uninitialize] SUCCESS

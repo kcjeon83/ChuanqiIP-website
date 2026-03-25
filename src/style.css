@@ -49,11 +49,16 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: background 0.5s, padding 0.5s, backdrop-filter 0.5s;
+  background: rgba(5, 5, 8, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.4s, padding 0.4s, border-color 0.4s;
 }
 nav.scrolled {
-  background: rgba(5, 5, 8, 0.85);
-  backdrop-filter: blur(20px);
+  background: rgba(5, 5, 8, 0.72);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   padding: 18px 60px;
   border-bottom: 1px solid var(--border);
 }
