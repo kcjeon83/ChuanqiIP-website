@@ -1,5 +1,65 @@
 import './style.css'
 
+// ─── CMS LOADER ───
+const cqipCMS = (() => {
+  try { const s = localStorage.getItem('cqip_cms'); return s ? JSON.parse(s) : null } catch { return null }
+})()
+
+function applyCMSImages() {
+  if (!cqipCMS) return
+  // Game cards
+  cqipCMS.games?.forEach((g, i) => {
+    const img  = document.getElementById(`gameCardImg${i}`)
+    const link = document.getElementById(`gameCardLink${i}`)
+    if (img  && g.image) img.src   = g.image
+    if (link && g.link)  link.href = g.link
+  })
+  // News cards
+  cqipCMS.news?.forEach((n, i) => {
+    const imgEl  = document.getElementById(`newsCardImg${i}`)
+    const linkEl = document.getElementById(`newsCardLink${i}`)
+    const dateEl = document.getElementById(`newsCardDate${i}`)
+    const titleEl = i < 4
+      ? document.querySelector(`#newsCardLink${i} .news-title--clamp`)
+      : document.getElementById(`newsTitle${i}`)
+    if (imgEl  && n.image) imgEl.style.backgroundImage = `url('${n.image}')`
+    if (linkEl && n.link)  linkEl.href = n.link
+    if (dateEl && n.date)  dateEl.textContent = n.date
+    if (titleEl && n.titleKr) titleEl.textContent = n.titleKr
+  })
+  // Recruit boxes
+  cqipCMS.recruit?.cards?.forEach((c, i) => {
+    const box  = document.getElementById(`recruitBox${i}`)
+    const num  = document.getElementById(`recruitNum${i}`)
+    const text = document.getElementById(`recruitText${i}`)
+    if (box  && c.image) { box.style.backgroundImage = `url('${c.image}')`; box.style.backgroundSize = 'cover'; box.style.backgroundPosition = 'center' }
+    if (num  && c.num)   num.textContent  = c.num
+    if (text && c.text)  text.textContent = c.text
+  })
+  // Studio images
+  cqipCMS.studio?.forEach((url, i) => {
+    if (!url) return
+    const items = document.querySelectorAll('.marquee-item-inner')
+    if (items[i])     items[i].style.backgroundImage     = `url('${url}')`
+    if (items[i + 7]) items[i + 7].style.backgroundImage = `url('${url}')`
+  })
+  // Contact email
+  if (cqipCMS.contact?.email) {
+    const emailEl = document.querySelector('.contact-email span')
+    const emailLink = document.querySelector('.contact-email')
+    if (emailEl) emailEl.textContent = cqipCMS.contact.email
+    if (emailLink) emailLink.href = `mailto:${cqipCMS.contact.email}`
+  }
+  // Footer address
+  if (cqipCMS.contact?.addrKr) {
+    const addrEl = document.getElementById('footerAddress')
+    if (addrEl) addrEl.textContent = cqipCMS.contact.addrKr
+  }
+}
+
+// Apply images after DOM ready
+document.addEventListener('DOMContentLoaded', applyCMSImages)
+
 // ─── 0. HERO VIDEO CROSSFADE ───
 const vid1 = document.getElementById('heroVid1')
 const vid2 = document.getElementById('heroVid2')
@@ -138,11 +198,27 @@ const gameDescs = [
   '더 넓어진 전장과 발전된 시스템으로 진화를 이뤄냈습니다. 향상된 그래픽, 정교해진 전투, 다채로운 콘텐츠를 통해 한층 깊이 있는 무협 MMORPG의 완성도를 새롭게 정의합니다.'
 ]
 
-const gameStats = [
-  { players: '2억+',  playersLabel: 'Total Players', revenue: '2.2조', revenueLabel: 'Total Revenue', showRevenue: true,  service: '25y', serviceLabel: 'In Service', color: '#c0392b' },
-  { players: '60만+', playersLabel: 'CONCURRENTS',   revenue: '2.2조', revenueLabel: 'Total Revenue', showRevenue: false, service: '23y', serviceLabel: 'In Service', color: '#8e44ad' },
-  { players: '200+',  playersLabel: 'TEAM MEMBERS',  revenue: '4',     revenueLabel: 'YEARS IN DEV',  showRevenue: true,  service: 'UE5', serviceLabel: 'ENGINE',     color: '#c9a44a' },
-]
+const gameStats = (() => {
+  const base = [
+    { players: '2억+',  playersLabel: 'Total Players', revenue: '2.2조', revenueLabel: 'Total Revenue', showRevenue: true,  service: '25y', serviceLabel: 'In Service', color: '#c0392b' },
+    { players: '60만+', playersLabel: 'CONCURRENTS',   revenue: '2.2조', revenueLabel: 'Total Revenue', showRevenue: false, service: '23y', serviceLabel: 'In Service', color: '#8e44ad' },
+    { players: '200+',  playersLabel: 'TEAM MEMBERS',  revenue: '4',     revenueLabel: 'YEARS IN DEV',  showRevenue: true,  service: 'UE5', serviceLabel: 'ENGINE',     color: '#c9a44a' },
+  ]
+  if (cqipCMS?.games) {
+    cqipCMS.games.forEach((g, i) => {
+      if (!base[i]) return
+      if (g.players)       base[i].players       = g.players
+      if (g.playersLabel)  base[i].playersLabel   = g.playersLabel
+      if (g.revenue)       base[i].revenue        = g.revenue
+      if (g.revenueLabel)  base[i].revenueLabel   = g.revenueLabel
+      if (g.showRevenue !== undefined) base[i].showRevenue = g.showRevenue
+      if (g.service)       base[i].service        = g.service
+      if (g.serviceLabel)  base[i].serviceLabel   = g.serviceLabel
+      if (g.color)         base[i].color          = g.color
+    })
+  }
+  return base
+})()
 
 const statPlayers      = document.getElementById('statPlayers')
 const statPlayersLabel = document.getElementById('statPlayersLabel')
@@ -233,7 +309,8 @@ updateStats(0)
 startAutoRoll()
 
 // ─── 7. I18N ───
-const i18n = {
+const i18n = (() => {
+  const base = {
   kr: {
     gameDescs: [
       '미르의 전설2는 1세대 온라인 게임의 흐름을 바꾼 상징적인 작품입니다. 탄탄한 세계관과 전투 시스템, 그리고 무협의 미학을 바탕으로 MMORPG 장르의 가능성을 처음으로 제시했습니다.',
@@ -290,7 +367,43 @@ const i18n = {
     privacy: 'Privacy Policy',
     terms: 'Terms of Service'
   }
-}
+  }
+  // CMS 오버라이드
+  if (cqipCMS) {
+    const c = cqipCMS
+    if (c.hero?.subKr) base.kr.heroSub = c.hero.subKr.replace(/\n/g, '<br>')
+    if (c.hero?.subEn) base.en.heroSub = c.hero.subEn.replace(/\n/g, '<br>')
+    if (c.games) {
+      c.games.forEach((g, i) => {
+        if (g.descKr) base.kr.gameDescs[i] = g.descKr
+        if (g.descEn) base.en.gameDescs[i] = g.descEn
+      })
+    }
+    if (c.recruit) {
+      if (c.recruit.bodyKr) base.kr.recruitBody = c.recruit.bodyKr.replace(/\n/g, '<br>')
+      if (c.recruit.bodyEn) base.en.recruitBody = c.recruit.bodyEn.replace(/\n/g, '<br>')
+      if (c.recruit.btnKr)  base.kr.recruitBtn  = c.recruit.btnKr
+      if (c.recruit.btnEn)  base.en.recruitBtn  = c.recruit.btnEn
+      c.recruit.perks?.forEach((p, i) => {
+        if (p.kr) base.kr.perks[i] = p.kr
+        if (p.en) base.en.perks[i] = p.en
+      })
+    }
+    if (c.news) {
+      c.news.forEach((n, i) => {
+        if (i < 4) {
+          if (n.titleKr) base.kr.newsTitles[i] = n.titleKr
+          if (n.titleEn) base.en.newsTitles[i] = n.titleEn
+        }
+      })
+    }
+    if (c.contact) {
+      if (c.contact.addrKr) base.kr.address = c.contact.addrKr
+      if (c.contact.addrEn) base.en.address = c.contact.addrEn
+    }
+  }
+  return base
+})()
 
 function setLang(lang) {
   currentLang = lang

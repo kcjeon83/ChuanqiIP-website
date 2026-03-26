@@ -102,8 +102,8 @@
     <div class="showcase-right reveal reveal-delay-2">
       <div class="game-card-stack" id="cardStack">
         <div class="game-card" data-game="0">
-          <a href="https://mir2-event.mironline.co.kr/11101110001100101" target="_blank" rel="noopener" class="card-link">
-            <img src="/img/slide1.jpg" class="card-art" alt="MIR 2">
+          <a id="gameCardLink0" href="https://mir2-event.mironline.co.kr/11101110001100101" target="_blank" rel="noopener" class="card-link">
+            <img id="gameCardImg0" src="/img/slide1.jpg" class="card-art" alt="MIR 2">
             <div class="card-overlay">
               <div class="card-title">MIR 2</div>
               <div class="card-genre">MMORPG</div>
@@ -111,8 +111,8 @@
           </a>
         </div>
         <div class="game-card" data-game="1">
-          <a href="https://mir3-event.mironline.co.kr/11101110100010000?p=3cfada52&s=3d0ffa053d1704963d1e0f273d1e0f273d170496&f=3d1e0f273d1704963d08ef74" target="_blank" rel="noopener" class="card-link">
-            <img src="/img/slide2.jpg" class="card-art" alt="MIR 3">
+          <a id="gameCardLink1" href="https://mir3-event.mironline.co.kr/11101110100010000?p=3cfada52&s=3d0ffa053d1704963d1e0f273d1e0f273d170496&f=3d1e0f273d1704963d08ef74" target="_blank" rel="noopener" class="card-link">
+            <img id="gameCardImg1" src="/img/slide2.jpg" class="card-art" alt="MIR 3">
             <div class="card-overlay">
               <div class="card-title">MIR 3</div>
               <div class="card-genre">Action RPG</div>
@@ -120,8 +120,8 @@
           </a>
         </div>
         <div class="game-card" data-game="2">
-          <a href="https://jkctestsite.vercel.app/" target="_blank" rel="noopener" class="card-link">
-            <img src="/img/slide3.jpg" class="card-art" alt="NEW PROJECT">
+          <a id="gameCardLink2" href="https://jkctestsite.vercel.app/" target="_blank" rel="noopener" class="card-link">
+            <img id="gameCardImg2" src="/img/slide3.jpg" class="card-art" alt="NEW PROJECT">
             <div class="card-overlay">
               <div class="card-title">NEW PROJECT</div>
               <div class="card-genre">Action · Openworld</div>
@@ -155,76 +155,68 @@
 
     <div class="news-scroll-track">
       <div class="news-card">
-        <a href="/news/mir2-25th.html" class="news-card-link">
-          <div class="news-card-img" style="background-image:url('/img/slide1.jpg'); background-size:cover; background-position:center;"></div>
+        <a id="newsCardLink0" href="/news/mir2-25th.html" class="news-card-link">
+          <div id="newsCardImg0" class="news-card-img" style="background-image:url('/img/slide1.jpg'); background-size:cover; background-position:center;"></div>
           <div class="news-card-content">
             <div class="news-title news-title--clamp">위메이드, '미르의 전설2' 서비스 25주년 기념 대규모 이벤트</div>
-            <div class="news-date">2026.03.15</div>
+            <div class="news-date" id="newsCardDate0">2026.03.15</div>
           </div>
-          <div class="news-num">01</div>
         </a>
       </div>
       <div class="news-card">
-        <a href="/news/mir2-update.html" class="news-card-link">
-          <div class="news-card-img" style="background-image:url('/img/new_2.jpg'); background-size:cover; background-position:center;"></div>
+        <a id="newsCardLink1" href="/news/mir2-update.html" class="news-card-link">
+          <div id="newsCardImg1" class="news-card-img" style="background-image:url('/img/new_2.jpg'); background-size:cover; background-position:center;"></div>
           <div class="news-card-content">
             <div class="news-title news-title--clamp">'미르의 전설2', 중레벨 성장 시스템 업데이트 및 2026 로드맵 발표</div>
-            <div class="news-date">2026.02.12</div>
+            <div class="news-date" id="newsCardDate1">2026.02.12</div>
           </div>
-          <div class="news-num">02</div>
         </a>
       </div>
       <div class="news-card">
-        <a href="/news/mir2-field.html" class="news-card-link">
-          <div class="news-card-img" style="background-image:url('/img/new_3.jpg'); background-size:cover; background-position:center;"></div>
+        <a id="newsCardLink2" href="/news/mir2-field.html" class="news-card-link">
+          <div id="newsCardImg2" class="news-card-img" style="background-image:url('/img/new_3.jpg'); background-size:cover; background-position:center;"></div>
           <div class="news-card-content">
             <div class="news-title news-title--clamp">위메이드, '미르의 전설2' 신규 필드 '백룡담촌' 업데이트 실시</div>
-            <div class="news-date">2026.01.10</div>
+            <div class="news-date" id="newsCardDate2">2026.01.10</div>
           </div>
-          <div class="news-num">03</div>
         </a>
       </div>
       <div class="news-card">
-        <a href="/news/mir3-dungeon.html" class="news-card-link">
-          <div class="news-card-img" style="background-image:url('/img/new_4.jpg'); background-size:cover; background-position:center;"></div>
+        <a id="newsCardLink3" href="/news/mir3-dungeon.html" class="news-card-link">
+          <div id="newsCardImg3" class="news-card-img" style="background-image:url('/img/new_4.jpg'); background-size:cover; background-position:center;"></div>
           <div class="news-card-content">
             <div class="news-title news-title--clamp">위메이드 '미르의 전설3', 신규 시공 던전 '망의 숲 심연' 업데이트</div>
-            <div class="news-date">2025.11.06</div>
+            <div class="news-date" id="newsCardDate3">2025.11.06</div>
           </div>
-          <div class="news-num">04</div>
         </a>
       </div>
       <div class="news-card">
         <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #a84ac922);"></div>
         <div class="news-card-content">
-          <div class="news-title">GPU Performance Optimized: 40% Fewer Shader Calls Per Frame</div>
-          <div class="news-date">2025.11.18</div>
+          <div class="news-title" id="newsTitle4">GPU Performance Optimized: 40% Fewer Shader Calls Per Frame</div>
+          <div class="news-date" id="newsCardDate4">2025.11.18</div>
         </div>
-        <div class="news-num">05</div>
       </div>
       <div class="news-card">
         <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #c9a44a22);"></div>
         <div class="news-card-content">
-          <div class="news-title">Global IP Expansion — ChuanqiIP Enters Southeast Asian Markets</div>
-          <div class="news-date">2025.10.30</div>
+          <div class="news-title" id="newsTitle5">Global IP Expansion — ChuanqiIP Enters Southeast Asian Markets</div>
+          <div class="news-date" id="newsCardDate5">2025.10.30</div>
         </div>
-        <div class="news-num">06</div>
       </div>
       <div class="news-card">
         <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #4ac9c922);"></div>
         <div class="news-card-content">
-          <div class="news-title">MIR IP 25th Anniversary — The Legacy Lives On</div>
-          <div class="news-date">2025.09.12</div>
+          <div class="news-title" id="newsTitle6">MIR IP 25th Anniversary — The Legacy Lives On</div>
+          <div class="news-date" id="newsCardDate6">2025.09.12</div>
         </div>
-        <div class="news-num">07</div>
       </div>
       <div class="news-card">
         <div class="news-card-img" style="background: linear-gradient(45deg, #1a1a24, #6ec94a22);"></div>
         <div class="news-card-content">
-          <div class="news-title">New Project Reveal: Unreal Engine 5 Powered Open World MMORPG</div>
-          <div class="news-date">2025.08.05</div>
+          <div class="news-title" id="newsTitle7">New Project Reveal: Unreal Engine 5 Powered Open World MMORPG</div>
+          <div class="news-date" id="newsCardDate7">2025.08.05</div>
         </div>
-        <div class="news-num">08</div>
       </div>
     </div>
   </section>
@@ -253,22 +245,22 @@
   <!-- RECRUIT -->
   <section class="recruit-section" id="recruit">
     <div class="recruit-visual reveal">
-      <div class="recruit-box rb-1" style="background-image:url('/img/recruit_1.jpg'); background-size:cover; background-position:center;">
+      <div id="recruitBox0" class="recruit-box rb-1" style="background-image:url('/img/recruit_1.jpg'); background-size:cover; background-position:center;">
         <div class="rb-content">
-          <div class="rb-num">1,800+</div>
-          <div class="rb-text">Professionals Worldwide</div>
+          <div class="rb-num" id="recruitNum0">1,800+</div>
+          <div class="rb-text" id="recruitText0">Professionals Worldwide</div>
         </div>
       </div>
-      <div class="recruit-box rb-2" style="background-image:url('/img/recruit_2.jpg'); background-size:cover; background-position:center;">
+      <div id="recruitBox1" class="recruit-box rb-2" style="background-image:url('/img/recruit_2.jpg'); background-size:cover; background-position:center;">
         <div class="rb-content">
-          <div class="rb-num">5</div>
-          <div class="rb-text">Global Offices</div>
+          <div class="rb-num" id="recruitNum1">5</div>
+          <div class="rb-text" id="recruitText1">Global Offices</div>
         </div>
       </div>
-      <div class="recruit-box rb-3" style="background-image:url('/img/recruit_3.jpg'); background-size:cover; background-position:center;">
+      <div id="recruitBox2" class="recruit-box rb-3" style="background-image:url('/img/recruit_3.jpg'); background-size:cover; background-position:center;">
         <div class="rb-content">
-          <div class="rb-num">25Y</div>
-          <div class="rb-text">Game Experience</div>
+          <div class="rb-num" id="recruitNum2">25Y</div>
+          <div class="rb-text" id="recruitText2">Game Experience</div>
         </div>
       </div>
     </div>

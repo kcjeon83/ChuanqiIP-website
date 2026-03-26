@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHUANQI IP — Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07070a;
+      --surface: #0f0f14;
+      --surface2: #16161e;
+      --border: rgba(255,255,255,0.08);
+      --gold: #c9a44a;
+      --gold-dim: rgba(201,164,74,0.15);
+      --text: #f0eee8;
+      --text-dim: rgba(240,238,232,0.45);
+      --red: #e05252;
+      --green: #52c47a;
+      --sidebar-w: 220px;
+    }
+    html, body { height: 100%; font-family: 'Pretendard', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+
+    /* ── LOGIN ── */
+    #loginWrap {
+      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: var(--bg);
+      z-index: 999;
+    }
+    .login-card {
+      width: 360px; padding: 48px 40px; background: var(--surface); border: 1px solid var(--border);
+      text-align: center;
+    }
+    .login-logo { font-size: 22px; font-weight: 800; letter-spacing: 4px; color: var(--gold); margin-bottom: 6px; }
+    .login-sub { font-size: 11px; letter-spacing: 3px; color: var(--text-dim); margin-bottom: 40px; text-transform: uppercase; }
+    .login-card input[type="password"] {
+      width: 100%; padding: 12px 16px; background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); font-size: 14px; font-family: inherit; margin-bottom: 12px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .login-card input[type="password"]:focus { border-color: var(--gold); }
+    .login-card button {
+      width: 100%; padding: 12px; background: var(--gold); color: #07070a;
+      font-weight: 700; font-size: 13px; letter-spacing: 2px; border: none; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .login-card button:hover { opacity: 0.85; }
+    .login-err { color: var(--red); font-size: 12px; margin-top: 10px; min-height: 18px; }
+
+    /* ── DASHBOARD ── */
+    .dashboard { display: flex; height: 100vh; overflow: hidden; }
+    .hidden { display: none !important; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-w); flex-shrink: 0; background: var(--surface);
+      border-right: 1px solid var(--border); display: flex; flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      padding: 28px 24px 20px; font-weight: 800; font-size: 13px; letter-spacing: 3px;
+      color: var(--gold); border-bottom: 1px solid var(--border);
+    }
+    .sidebar-logo span { display: block; font-size: 9px; color: var(--text-dim); letter-spacing: 4px; margin-top: 2px; }
+    .sidebar-nav { flex: 1; padding: 16px 0; }
+    .nav-item {
+      display: block; padding: 11px 24px; font-size: 11px; letter-spacing: 2px; font-weight: 600;
+      color: var(--text-dim); text-decoration: none; transition: all 0.2s; cursor: pointer;
+      border-left: 2px solid transparent;
+    }
+    .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); }
+    .sidebar-actions { padding: 20px 16px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+    .btn-preview {
+      display: block; text-align: center; padding: 9px; border: 1px solid var(--border);
+      color: var(--text-dim); text-decoration: none; font-size: 11px; letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+    .btn-preview:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-logout {
+      padding: 9px; background: none; border: 1px solid rgba(224,82,82,0.3);
+      color: rgba(224,82,82,0.7); font-size: 11px; letter-spacing: 1px; cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .btn-logout:hover { border-color: var(--red); color: var(--red); }
+
+    /* MAIN CONTENT */
+    .content { flex: 1; overflow-y: auto; background: var(--bg); }
+    .tab-panel { display: none; padding: 40px; max-width: 900px; }
+    .tab-panel.active { display: block; }
+
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 36px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+    }
+    .panel-header h2 { font-size: 20px; font-weight: 800; letter-spacing: 3px; }
+    .panel-header .header-actions { display: flex; gap: 10px; }
+
+    /* CARDS */
+    .edit-card {
+      background: var(--surface); border: 1px solid var(--border); padding: 28px;
+      margin-bottom: 20px;
+    }
+    .edit-card-header {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--gold);
+      margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .badge {
+      display: inline-block; padding: 2px 8px; background: var(--gold-dim); color: var(--gold);
+      font-size: 10px; letter-spacing: 1px;
+    }
+
+    /* FORM ELEMENTS */
+    .form-row { margin-bottom: 16px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    label {
+      display: block; font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+      color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px;
+    }
+    input[type="text"], input[type="url"], input[type="email"], textarea, select {
+      width: 100%; padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); font-size: 13px; font-family: inherit; outline: none;
+      transition: border-color 0.2s; resize: vertical;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--gold); }
+    textarea { min-height: 80px; }
+    textarea.tall { min-height: 120px; }
+
+    .check-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .check-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
+    .check-row label { margin-bottom: 0; cursor: pointer; }
+
+    .img-preview {
+      margin-top: 8px; width: 100%; height: 120px; object-fit: cover;
+      background: var(--surface2); border: 1px solid var(--border);
+      display: block; overflow: hidden;
+    }
+    .img-preview-inner {
+      width: 100%; height: 120px; background-size: cover; background-position: center;
+      background-color: var(--surface2); border: 1px solid var(--border); margin-top: 8px;
+      transition: background-image 0.3s;
+    }
+
+    /* BUTTONS */
+    .save-btn, .reset-btn {
+      padding: 10px 24px; font-family: inherit; font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; cursor: pointer; border: none; transition: opacity 0.2s;
+    }
+    .save-btn { background: var(--gold); color: #07070a; }
+    .save-btn:hover { opacity: 0.85; }
+    .reset-btn { background: none; border: 1px solid var(--border); color: var(--text-dim); }
+    .reset-btn:hover { border-color: rgba(224,82,82,0.5); color: var(--red); }
+
+    /* GAME TABS */
+    .sub-tabs { display: flex; gap: 2px; margin-bottom: 24px; }
+    .sub-tab {
+      padding: 8px 20px; font-size: 11px; letter-spacing: 2px; font-weight: 600;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .sub-tab.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+    .sub-panel { display: none; }
+    .sub-panel.active { display: block; }
+
+    /* NEWS GRID */
+    .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* STUDIO GRID */
+    .studio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 32px; right: 32px; background: var(--green);
+      color: #07070a; padding: 12px 24px; font-weight: 700; font-size: 13px;
+      letter-spacing: 1px; opacity: 0; pointer-events: none; transform: translateY(12px);
+      transition: all 0.3s; z-index: 9999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: var(--red); color: #fff; }
+
+    .color-input-wrap { display: flex; gap: 8px; align-items: center; }
+    .color-input-wrap input[type="color"] { width: 44px; height: 38px; padding: 2px; cursor: pointer; background: var(--surface2); border: 1px solid var(--border); }
+
+    .section-note { font-size: 11px; color: var(--text-dim); line-height: 1.6; padding: 12px 16px; background: rgba(201,164,74,0.05); border-left: 2px solid var(--gold); margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="loginWrap">
+  <div class="login-card">
+    <div class="login-logo">CHUANQI IP</div>
+    <div class="login-sub">Admin Dashboard</div>
+    <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkLogin()" />
+    <button onclick="checkLogin()">LOGIN</button>
+    <p id="loginErr" class="login-err"></p>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="dashboard" class="dashboard hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">CHUANQI IP<span>ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-tab="hero">HERO</a>
+      <a class="nav-item" data-tab="games">GAMES</a>
+      <a class="nav-item" data-tab="news">NEWS</a>
+      <a class="nav-item" data-tab="recruit">RECRUIT</a>
+      <a class="nav-item" data-tab="studio">STUDIO</a>
+      <a class="nav-item" data-tab="contact">CONTACT</a>
+    </nav>
+    <div class="sidebar-actions">
+      <a href="/" target="_blank" class="btn-preview">↗ 사이트 미리보기</a>
+      <button class="btn-logout" onclick="logout()">로그아웃</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="content">
+
+    <!-- ── HERO ── -->
+    <div id="tab-hero" class="tab-panel active">
+      <div class="panel-header">
+        <h2>HERO</h2>
+        <div class="header-actions">
+          <button class="reset-btn" onclick="resetSection('hero')">초기화</button>
+          <button class="save-btn" onclick="saveSection('hero')">저장</button>
+        </div>
+      </div>
+      <div class="edit-card">
+        <div class="edit-card-header">서브타이틀 <span class="badge">KR / EN</span></div>
+        <div class="form-row">
+          <label>한국어</label>
+          <textarea id="h_subKr" class="tall"></textarea>
+        </div>
+        <div class="form-row">
+          <label>English</label>
+          <textarea id="h_subEn" class="tall"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── GAMES ── -->
+    <div id="tab-games" class="tab-panel">
+      <div class="panel-header">
+        <h2>GAMES</h2>
+        <div class="header-actions">
+          <button class="reset-btn" onclick="resetSection('games')">초기화</button>
+          <button class="save-btn" onclick="saveSection('games')">저장</button>
+        </div>
+      </div>
+      <div class="sub-tabs">
+        <div class="sub-tab active" data-gtab="0">MIR 2</div>
+        <div class="sub-tab" data-gtab="1">MIR 3</div>
+        <div class="sub-tab" data-gtab="2">NEW PROJECT</div>
+      </div>
+      <!-- Game panels generated by JS -->
+      <div id="gamePanels"></div>
+    </div>
+
+    <!-- ── NEWS ── -->
+    <div id="tab-news" class="tab-panel">
+      <div class="panel-header">
+        <h2>LATEST NEWS</h2>
+        <div class="header-actions">
+          <button class="reset-btn" onclick="resetSection('news')">초기화</button>
+          <button class="save-btn" onclick="saveSection('news')">저장</button>
+        </div>
+      </div>
+      <div class="section-note">카드 01~04는 링크·이미지 변경 가능. 카드 05~08은 제목·날짜만 편집됩니다.</div>
+      <div id="newsPanels"></div>
+    </div>
+
+    <!-- ── RECRUIT ── -->
+    <div id="tab-recruit" class="tab-panel">
+      <div class="panel-header">
+        <h2>RECRUIT</h2>
+        <div class="header-actions">
+          <button class="reset-btn" onclick="resetSection('recruit')">초기화</button>
+          <button class="save-btn" onclick="saveSection('recruit')">저장</button>
+        </div>
+      </div>
+      <div class="edit-card">
+        <div class="edit-card-header">본문</div>
+        <div class="form-row-2">
+          <div>
+            <label>한국어</label>
+            <textarea id="r_bodyKr" class="tall"></textarea>
+          </div>
+          <div>
+            <label>English</label>
+            <textarea id="r_bodyEn" class="tall"></textarea>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div>
+            <label>버튼 텍스트 KR</label>
+            <input type="text" id="r_btnKr" />
+          </div>
+          <div>
+            <label>Button Text EN</label>
+            <input type="text" id="r_btnEn" />
+          </div>
+        </div>
+      </div>
+      <div class="edit-card">
+        <div class="edit-card-header">혜택 항목 (7개)</div>
+        <div id="perkFields"></div>
+      </div>
+      <div class="edit-card">
+        <div class="edit-card-header">채용 카드 (3개)</div>
+        <div id="recruitCardFields"></div>
+      </div>
+    </div>
+
+    <!-- ── STUDIO ── -->
+    <div id="tab-studio" class="tab-panel">
+      <div class="panel-header">
+        <h2>STUDIO SPACE</h2>
+        <div class="header-actions">
+          <button class="reset-btn" onclick="resetSection('studio')">초기화</button>
+          <button class="save-btn" onclick="saveSection('studio')">저장</button>
+        </div>
+      </div>
+      <div class="section-note">이미지 URL을 변경하거나 기존 파일명과 동일한 파일을 <code>public/img/</code>에 교체해주세요.</div>
+      <div class="studio-grid" id="studioFields"></div>
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div id="tab-contact" class="tab-panel">
+      <div class="panel-header">
+        <h2>CONTACT</h2>
+        <div class="header-actions">
+          <button class="reset-btn" onclick="resetSection('contact')">초기화</button>
+          <button class="save-btn" onclick="saveSection('contact')">저장</button>
+        </div>
+      </div>
+      <div class="edit-card">
+        <div class="edit-card-header">이메일</div>
+        <div class="form-row">
+          <label>Email Address</label>
+          <input type="email" id="c_email" />
+        </div>
+      </div>
+      <div class="edit-card">
+        <div class="edit-card-header">주소 <span class="badge">KR / EN</span></div>
+        <div class="form-row">
+          <label>한국어</label>
+          <input type="text" id="c_addrKr" />
+        </div>
+        <div class="form-row">
+          <label>English</label>
+          <input type="text" id="c_addrEn" />
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<script>
+// ════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════
+const PASS = 'chuanqi2026'
+const CMS_KEY = 'cqip_cms'
+
+const DEFAULTS = {
+  hero: {
+    subKr: '경계를 허무는 상상력, 미르 IP의 무한한 확장\n게임을 넘어 문화와 플랫폼을 잇는 글로벌 IP 리더로 도약합니다.',
+    subEn: 'Imagination Beyond Boundaries — The Infinite Expansion of Mir IP\nRising as a Global IP Leader Connecting Games, Culture and Platforms.'
+  },
+  games: [
+    {
+      title: 'MIR 2', genre: 'MMORPG',
+      image: '/img/slide1.jpg',
+      link: 'https://mir2-event.mironline.co.kr/11101110001100101',
+      color: '#c0392b',
+      descKr: '미르의 전설2는 1세대 온라인 게임의 흐름을 바꾼 상징적인 작품입니다. 탄탄한 세계관과 전투 시스템, 그리고 무협의 미학을 바탕으로 MMORPG 장르의 가능성을 처음으로 제시했습니다.',
+      descEn: 'The Legend of Mir 2 is an iconic title that reshaped the first generation of online gaming. Built on a rich world, refined combat, and martial arts aesthetics, it first revealed the true potential of the MMORPG genre.',
+      players: '2억+', playersLabel: 'Total Players',
+      revenue: '2.2조', revenueLabel: 'Total Revenue', showRevenue: true,
+      service: '25y', serviceLabel: 'In Service'
+    },
+    {
+      title: 'MIR 3', genre: 'Action RPG',
+      image: '/img/slide2.jpg',
+      link: 'https://mir3-event.mironline.co.kr/11101110100010000?p=3cfada52&s=3d0ffa053d1704963d1e0f273d1e0f273d170496&f=3d1e0f273d1704963d08ef74',
+      color: '#8e44ad',
+      descKr: '미르의 전설3은 미르의 전설2의 정통성을 계승한 후속작으로, 확장된 세계와 향상된 그래픽, 새롭게 설계된 전투와 퀘스트를 통해 더 깊은 무협의 재미를 선사합니다.',
+      descEn: 'The Legend of Mir 3 carries forward the legacy of its predecessor with expanded worlds, enhanced graphics, and redesigned combat and quests for a deeper martial arts gaming experience.',
+      players: '60만+', playersLabel: 'CONCURRENTS',
+      revenue: '2.2조', revenueLabel: 'Total Revenue', showRevenue: false,
+      service: '23y', serviceLabel: 'In Service'
+    },
+    {
+      title: 'NEW PROJECT', genre: 'Action · Openworld',
+      image: '/img/slide3.jpg',
+      link: 'https://jkctestsite.vercel.app/',
+      color: '#c9a44a',
+      descKr: '더 넓어진 전장과 발전된 시스템으로 진화를 이뤄냈습니다. 향상된 그래픽, 정교해진 전투, 다채로운 콘텐츠를 통해 한층 깊이 있는 무협 MMORPG의 완성도를 새롭게 정의합니다.',
+      descEn: 'An evolution with expanded battlefields and advanced systems. Defining a new standard of open-world MMORPG excellence through enhanced visuals, refined combat, and diverse content.',
+      players: '200+', playersLabel: 'TEAM MEMBERS',
+      revenue: '4', revenueLabel: 'YEARS IN DEV', showRevenue: true,
+      service: 'UE5', serviceLabel: 'ENGINE'
+    }
+  ],
+  news: [
+    { titleKr: "위메이드, '미르의 전설2' 서비스 25주년 기념 대규모 이벤트", titleEn: "Wemade Hosts Grand Event to Celebrate 25th Anniversary of 'The Legend of Mir 2'", date: '2026.03.15', image: '/img/slide1.jpg', link: '/news/mir2-25th.html' },
+    { titleKr: "'미르의 전설2', 중레벨 성장 시스템 업데이트 및 2026 로드맵 발표", titleEn: "'Legend of Mir 2' Mid-Level Growth System Update & 2026 Roadmap Revealed", date: '2026.02.12', image: '/img/new_2.jpg', link: '/news/mir2-update.html' },
+    { titleKr: "위메이드, '미르의 전설2' 신규 필드 '백룡담촌' 업데이트 실시", titleEn: "Wemade Launches New Field 'Baekryongdam Village' Update for 'Legend of Mir 2'", date: '2026.01.10', image: '/img/new_3.jpg', link: '/news/mir2-field.html' },
+    { titleKr: "위메이드 '미르의 전설3', 신규 시공 던전 '망의 숲 심연' 업데이트", titleEn: "Wemade's 'Legend of Mir 3' Introduces New Dungeon 'Forest of Oblivion: Abyss'", date: '2025.11.06', image: '/img/new_4.jpg', link: '/news/mir3-dungeon.html' },
+    { titleKr: 'GPU 퍼포먼스 최적화: 프레임당 셰이더 호출 40% 감소', titleEn: 'GPU Performance Optimized: 40% Fewer Shader Calls Per Frame', date: '2025.11.18', image: '', link: '' },
+    { titleKr: '글로벌 IP 확장 — 동남아시아 시장 진출', titleEn: 'Global IP Expansion — ChuanqiIP Enters Southeast Asian Markets', date: '2025.10.30', image: '', link: '' },
+    { titleKr: 'MIR IP 25주년 — 그 유산은 계속됩니다', titleEn: 'MIR IP 25th Anniversary — The Legacy Lives On', date: '2025.09.12', image: '', link: '' },
+    { titleKr: '신규 프로젝트 공개: 언리얼 엔진 5 기반 오픈월드 MMORPG', titleEn: 'New Project Reveal: Unreal Engine 5 Powered Open World MMORPG', date: '2025.08.05', image: '', link: '' }
+  ],
+  recruit: {
+    bodyKr: 'We Dare, We Create, We Transform.\n25년의 게임 개발 경험을 바탕으로 AI와 블록체인 기술을 접목해 게임의 새로운 패러다임을 만들어갑니다. 함께 상상을 현실로 만들어 나갈 인재를 기다립니다.',
+    bodyEn: 'We Dare, We Create, We Transform.\nBuilding on 25 years of game development, we integrate AI and blockchain to forge a new gaming paradigm. We are looking for visionaries ready to turn imagination into reality.',
+    btnKr: '채용 공고 보기',
+    btnEn: 'View Job Openings',
+    perks: [
+      { kr: '월 26만 식사포인트 + 무료 사내 카페 음료', en: 'Monthly ₩260K meal points + free in-house café' },
+      { kr: '연 200만 복지포인트', en: 'Annual ₩2M welfare points' },
+      { kr: '매년 종합건강검진 · 사내 스포츠센터 · 제휴 휴양시설', en: 'Annual health checkup · Sports center · Affiliated resorts' },
+      { kr: '본인 및 가족 단체상해보험', en: 'Group accident insurance for employee & family' },
+      { kr: '자녀 유치원~대학교 학자금 지원', en: 'Child education support (kindergarten through university)' },
+      { kr: '장기근속축하금 · 경조금 및 경조휴가', en: 'Long-service bonus · Family event allowance & leave' },
+      { kr: '직무 관련 교육 · 수면실 · 샤워룸 등 사내 편의시설', en: 'Job training · Nap room · Shower room & in-house facilities' }
+    ],
+    cards: [
+      { num: '1,800+', text: 'Professionals Worldwide', image: '/img/recruit_1.jpg' },
+      { num: '5', text: 'Global Offices', image: '/img/recruit_2.jpg' },
+      { num: '25Y', text: 'Game Experience', image: '/img/recruit_3.jpg' }
+    ]
+  },
+  studio: [
+    '/img/studio_1.jpg', '/img/studio_2.jpg', '/img/studio_3.jpg',
+    '/img/studio_4.jpg', '/img/studio_5.jpg', '/img/studio_6.jpg', '/img/studio_7.jpg'
+  ],
+  contact: {
+    email: 'mirhelp@wemade.com',
+    addrKr: '성남시 분당구 대왕판교로644번길 49 위믹스타워 6F',
+    addrEn: 'Weemix Tower 6F, 49 Daewangpangyo-ro 644beon-gil, Bundang-gu, Seongnam, Korea'
+  }
+}
+
+// ════════════════════════════════════
+//  STATE
+// ════════════════════════════════════
+let cms = {}
+
+function loadCMS() {
+  try {
+    const s = localStorage.getItem(CMS_KEY)
+    if (s) {
+      const saved = JSON.parse(s)
+      // Deep merge: saved overrides defaults
+      cms = deepMerge(JSON.parse(JSON.stringify(DEFAULTS)), saved)
+    } else {
+      cms = JSON.parse(JSON.stringify(DEFAULTS))
+    }
+  } catch(e) {
+    cms = JSON.parse(JSON.stringify(DEFAULTS))
+  }
+}
+
+function saveCMS() {
+  localStorage.setItem(CMS_KEY, JSON.stringify(cms))
+}
+
+function deepMerge(target, source) {
+  for (const key in source) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      target[key] = deepMerge(target[key] || {}, source[key])
+    } else {
+      target[key] = source[key]
+    }
+  }
+  return target
+}
+
+// ════════════════════════════════════
+//  AUTH
+// ════════════════════════════════════
+function checkLogin() {
+  const v = document.getElementById('pwInput').value
+  if (v === PASS) {
+    sessionStorage.setItem('cqip_auth', '1')
+    showDashboard()
+  } else {
+    document.getElementById('loginErr').textContent = '비밀번호가 올바르지 않습니다.'
+    document.getElementById('pwInput').value = ''
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('cqip_auth')
+  document.getElementById('dashboard').classList.add('hidden')
+  document.getElementById('loginWrap').style.display = 'flex'
+  document.getElementById('pwInput').value = ''
+}
+
+function showDashboard() {
+  document.getElementById('loginWrap').style.display = 'none'
+  document.getElementById('dashboard').classList.remove('hidden')
+  loadCMS()
+  buildForms()
+  populateForms()
+}
+
+// ════════════════════════════════════
+//  TABS
+// ════════════════════════════════════
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault()
+    const tab = item.dataset.tab
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'))
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+    item.classList.add('active')
+    document.getElementById('tab-' + tab).classList.add('active')
+  })
+})
+
+// ════════════════════════════════════
+//  BUILD FORMS (Dynamic)
+// ════════════════════════════════════
+function buildForms() {
+  buildGamePanels()
+  buildNewsPanels()
+  buildPerkFields()
+  buildRecruitCardFields()
+  buildStudioFields()
+  buildGamesSubTabs()
+}
+
+function buildGamesSubTabs() {
+  document.querySelectorAll('.sub-tab[data-gtab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const idx = tab.dataset.gtab
+      document.querySelectorAll('.sub-tab[data-gtab]').forEach(t => t.classList.remove('active'))
+      document.querySelectorAll('.game-sub-panel').forEach(p => p.classList.remove('active'))
+      tab.classList.add('active')
+      document.getElementById(`gamePanel${idx}`).classList.add('active')
+    })
+  })
+}
+
+function buildGamePanels() {
+  const container = document.getElementById('gamePanels')
+  const names = ['MIR 2', 'MIR 3', 'NEW PROJECT']
+  container.innerHTML = names.map((name, i) => `
+    <div id="gamePanel${i}" class="game-sub-panel ${i === 0 ? 'active' : ''}" style="${i===0?'':'display:none'}">
+      <div class="edit-card">
+        <div class="edit-card-header">${name} <span class="badge">카드 설정</span></div>
+        <div class="form-row-2">
+          <div>
+            <label>이미지 URL</label>
+            <input type="url" id="g${i}_image" oninput="updateImgPreview('gPrev${i}', this.value)" />
+            <div class="img-preview-inner" id="gPrev${i}"></div>
+          </div>
+          <div>
+            <label>외부 링크 URL</label>
+            <input type="url" id="g${i}_link" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label>설명 (KR)</label>
+          <textarea id="g${i}_descKr"></textarea>
+        </div>
+        <div class="form-row">
+          <label>Description (EN)</label>
+          <textarea id="g${i}_descEn"></textarea>
+        </div>
+      </div>
+      <div class="edit-card">
+        <div class="edit-card-header">${name} <span class="badge">수치 통계</span></div>
+        <div class="form-row-3">
+          <div>
+            <label>Players 수치</label>
+            <input type="text" id="g${i}_players" />
+          </div>
+          <div>
+            <label>Players 레이블</label>
+            <input type="text" id="g${i}_playersLabel" />
+          </div>
+          <div>
+            <label>통계 컬러</label>
+            <div class="color-input-wrap">
+              <input type="color" id="g${i}_color" />
+              <input type="text" id="g${i}_colorHex" placeholder="#c0392b" />
+            </div>
+          </div>
+        </div>
+        <div class="form-row-3">
+          <div>
+            <label>Revenue 수치</label>
+            <input type="text" id="g${i}_revenue" />
+          </div>
+          <div>
+            <label>Revenue 레이블</label>
+            <input type="text" id="g${i}_revenueLabel" />
+          </div>
+          <div>
+            <div class="check-row" style="margin-top:24px">
+              <input type="checkbox" id="g${i}_showRevenue" />
+              <label for="g${i}_showRevenue">Revenue 표시</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div>
+            <label>Service 수치</label>
+            <input type="text" id="g${i}_service" />
+          </div>
+          <div>
+            <label>Service 레이블</label>
+            <input type="text" id="g${i}_serviceLabel" />
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('')
+
+  // Sub-tab click to show/hide game panels
+  document.querySelectorAll('.sub-tab[data-gtab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const idx = tab.dataset.gtab
+      document.querySelectorAll('.game-sub-panel').forEach(p => p.style.display = 'none')
+      const panel = document.getElementById(`gamePanel${idx}`)
+      if (panel) panel.style.display = 'block'
+      // Sync color hex
+      const colorInput = document.getElementById(`g${idx}_color`)
+      const hexInput = document.getElementById(`g${idx}_colorHex`)
+      if (colorInput && hexInput) {
+        colorInput.addEventListener('input', () => { hexInput.value = colorInput.value })
+        hexInput.addEventListener('input', () => {
+          if (/^#[0-9a-f]{6}$/i.test(hexInput.value)) colorInput.value = hexInput.value
+        })
+      }
+    })
+  })
+  // Init color sync for panel 0
+  ;[0,1,2].forEach(i => {
+    const colorInput = document.getElementById(`g${i}_color`)
+    const hexInput = document.getElementById(`g${i}_colorHex`)
+    if (colorInput && hexInput) {
+      colorInput.addEventListener('input', () => { hexInput.value = colorInput.value })
+      hexInput.addEventListener('input', () => {
+        if (/^#[0-9a-f]{6}$/i.test(hexInput.value)) colorInput.value = hexInput.value
+      })
+    }
+  })
+}
+
+function buildNewsPanels() {
+  const container = document.getElementById('newsPanels')
+  container.innerHTML = `<div class="news-grid">${Array.from({length:8}, (_,i) => `
+    <div class="edit-card">
+      <div class="edit-card-header">NEWS ${String(i+1).padStart(2,'0')} ${i < 4 ? '<span class="badge">링크형</span>' : ''}</div>
+      <div class="form-row">
+        <label>제목 (KR)</label>
+        <input type="text" id="n${i}_titleKr" />
+      </div>
+      <div class="form-row">
+        <label>Title (EN)</label>
+        <input type="text" id="n${i}_titleEn" />
+      </div>
+      <div class="form-row">
+        <label>날짜</label>
+        <input type="text" id="n${i}_date" placeholder="YYYY.MM.DD" />
+      </div>
+      ${i < 4 ? `
+      <div class="form-row">
+        <label>이미지 URL</label>
+        <input type="url" id="n${i}_image" oninput="updateImgPreview('nPrev${i}', this.value)" />
+        <div class="img-preview-inner" id="nPrev${i}"></div>
+      </div>
+      <div class="form-row">
+        <label>링크 URL</label>
+        <input type="url" id="n${i}_link" />
+      </div>` : ''}
+    </div>
+  `).join('')}</div>`
+}
+
+function buildPerkFields() {
+  const container = document.getElementById('perkFields')
+  container.innerHTML = Array.from({length:7}, (_,i) => `
+    <div style="margin-bottom:16px; padding-bottom:16px; border-bottom: 1px solid var(--border);">
+      <div class="form-row-2">
+        <div>
+          <label>혜택 ${i+1} (KR)</label>
+          <input type="text" id="p${i}_kr" />
+        </div>
+        <div>
+          <label>Benefit ${i+1} (EN)</label>
+          <input type="text" id="p${i}_en" />
+        </div>
+      </div>
+    </div>
+  `).join('')
+}
+
+function buildRecruitCardFields() {
+  const container = document.getElementById('recruitCardFields')
+  const names = ['Card 01', 'Card 02', 'Card 03']
+  container.innerHTML = `<div class="form-row-3">${names.map((name, i) => `
+    <div class="edit-card" style="margin-bottom:0">
+      <div class="edit-card-header">${name}</div>
+      <div class="form-row">
+        <label>수치</label>
+        <input type="text" id="rc${i}_num" />
+      </div>
+      <div class="form-row">
+        <label>텍스트</label>
+        <input type="text" id="rc${i}_text" />
+      </div>
+      <div class="form-row">
+        <label>이미지 URL</label>
+        <input type="url" id="rc${i}_image" oninput="updateImgPreview('rcPrev${i}', this.value)" />
+        <div class="img-preview-inner" id="rcPrev${i}"></div>
+      </div>
+    </div>
+  `).join('')}</div>`
+}
+
+function buildStudioFields() {
+  const container = document.getElementById('studioFields')
+  container.innerHTML = Array.from({length:7}, (_,i) => `
+    <div class="edit-card" style="margin-bottom:0">
+      <div class="edit-card-header">STUDIO ${String(i+1).padStart(2,'0')}</div>
+      <div class="form-row">
+        <label>이미지 URL</label>
+        <input type="url" id="s${i}_image" oninput="updateImgPreview('sPrev${i}', this.value)" />
+        <div class="img-preview-inner" id="sPrev${i}"></div>
+      </div>
+    </div>
+  `).join('')
+}
+
+// ════════════════════════════════════
+//  POPULATE FORMS
+// ════════════════════════════════════
+function populateForms() {
+  const c = cms
+
+  // HERO
+  setVal('h_subKr', c.hero.subKr)
+  setVal('h_subEn', c.hero.subEn)
+
+  // GAMES
+  c.games.forEach((g, i) => {
+    setVal(`g${i}_image`, g.image)
+    setVal(`g${i}_link`, g.link)
+    setVal(`g${i}_descKr`, g.descKr)
+    setVal(`g${i}_descEn`, g.descEn)
+    setVal(`g${i}_players`, g.players)
+    setVal(`g${i}_playersLabel`, g.playersLabel)
+    setVal(`g${i}_revenue`, g.revenue)
+    setVal(`g${i}_revenueLabel`, g.revenueLabel)
+    setCheck(`g${i}_showRevenue`, g.showRevenue)
+    setVal(`g${i}_service`, g.service)
+    setVal(`g${i}_serviceLabel`, g.serviceLabel)
+    setVal(`g${i}_color`, g.color || '#c9a44a')
+    setVal(`g${i}_colorHex`, g.color || '#c9a44a')
+    updateImgPreview(`gPrev${i}`, g.image)
+  })
+
+  // NEWS
+  c.news.forEach((n, i) => {
+    setVal(`n${i}_titleKr`, n.titleKr)
+    setVal(`n${i}_titleEn`, n.titleEn)
+    setVal(`n${i}_date`, n.date)
+    if (i < 4) {
+      setVal(`n${i}_image`, n.image)
+      setVal(`n${i}_link`, n.link)
+      updateImgPreview(`nPrev${i}`, n.image)
+    }
+  })
+
+  // RECRUIT
+  setVal('r_bodyKr', c.recruit.bodyKr)
+  setVal('r_bodyEn', c.recruit.bodyEn)
+  setVal('r_btnKr', c.recruit.btnKr)
+  setVal('r_btnEn', c.recruit.btnEn)
+  c.recruit.perks.forEach((p, i) => {
+    setVal(`p${i}_kr`, p.kr)
+    setVal(`p${i}_en`, p.en)
+  })
+  c.recruit.cards.forEach((card, i) => {
+    setVal(`rc${i}_num`, card.num)
+    setVal(`rc${i}_text`, card.text)
+    setVal(`rc${i}_image`, card.image)
+    updateImgPreview(`rcPrev${i}`, card.image)
+  })
+
+  // STUDIO
+  c.studio.forEach((url, i) => {
+    setVal(`s${i}_image`, url)
+    updateImgPreview(`sPrev${i}`, url)
+  })
+
+  // CONTACT
+  setVal('c_email', c.contact.email)
+  setVal('c_addrKr', c.contact.addrKr)
+  setVal('c_addrEn', c.contact.addrEn)
+}
+
+// ════════════════════════════════════
+//  SAVE SECTIONS
+// ════════════════════════════════════
+function saveSection(section) {
+  switch(section) {
+    case 'hero':
+      cms.hero.subKr = getVal('h_subKr')
+      cms.hero.subEn = getVal('h_subEn')
+      break
+    case 'games':
+      cms.games.forEach((g, i) => {
+        g.image = getVal(`g${i}_image`) || g.image
+        g.link = getVal(`g${i}_link`) || g.link
+        g.descKr = getVal(`g${i}_descKr`)
+        g.descEn = getVal(`g${i}_descEn`)
+        g.players = getVal(`g${i}_players`)
+        g.playersLabel = getVal(`g${i}_playersLabel`)
+        g.revenue = getVal(`g${i}_revenue`)
+        g.revenueLabel = getVal(`g${i}_revenueLabel`)
+        g.showRevenue = getCheck(`g${i}_showRevenue`)
+        g.service = getVal(`g${i}_service`)
+        g.serviceLabel = getVal(`g${i}_serviceLabel`)
+        const hex = getVal(`g${i}_colorHex`)
+        if (/^#[0-9a-f]{6}$/i.test(hex)) g.color = hex
+      })
+      break
+    case 'news':
+      cms.news.forEach((n, i) => {
+        n.titleKr = getVal(`n${i}_titleKr`)
+        n.titleEn = getVal(`n${i}_titleEn`)
+        n.date = getVal(`n${i}_date`)
+        if (i < 4) {
+          n.image = getVal(`n${i}_image`) || n.image
+          n.link = getVal(`n${i}_link`) || n.link
+        }
+      })
+      break
+    case 'recruit':
+      cms.recruit.bodyKr = getVal('r_bodyKr')
+      cms.recruit.bodyEn = getVal('r_bodyEn')
+      cms.recruit.btnKr = getVal('r_btnKr')
+      cms.recruit.btnEn = getVal('r_btnEn')
+      cms.recruit.perks.forEach((p, i) => {
+        p.kr = getVal(`p${i}_kr`)
+        p.en = getVal(`p${i}_en`)
+      })
+      cms.recruit.cards.forEach((card, i) => {
+        card.num = getVal(`rc${i}_num`)
+        card.text = getVal(`rc${i}_text`)
+        card.image = getVal(`rc${i}_image`) || card.image
+      })
+      break
+    case 'studio':
+      cms.studio = Array.from({length:7}, (_,i) => getVal(`s${i}_image`) || cms.studio[i])
+      break
+    case 'contact':
+      cms.contact.email = getVal('c_email')
+      cms.contact.addrKr = getVal('c_addrKr')
+      cms.contact.addrEn = getVal('c_addrEn')
+      break
+  }
+  saveCMS()
+  showToast('저장되었습니다 ✓')
+}
+
+function resetSection(section) {
+  if (!confirm(`'${section.toUpperCase()}' 섹션을 기본값으로 초기화하시겠습니까?`)) return
+  cms[section] = JSON.parse(JSON.stringify(DEFAULTS[section]))
+  saveCMS()
+  populateForms()
+  showToast('초기화되었습니다', true)
+}
+
+// ════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════
+function setVal(id, v) { const el = document.getElementById(id); if (el) el.value = v ?? '' }
+function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : '' }
+function setCheck(id, v) { const el = document.getElementById(id); if (el) el.checked = !!v }
+function getCheck(id) { const el = document.getElementById(id); return el ? el.checked : false }
+
+function updateImgPreview(id, url) {
+  const el = document.getElementById(id)
+  if (!el) return
+  el.style.backgroundImage = url ? `url('${url}')` : 'none'
+  el.style.display = url ? 'block' : 'none'
+}
+
+function showToast(msg, isInfo = false) {
+  const t = document.getElementById('toast')
+  t.textContent = msg
+  t.classList.toggle('error', false)
+  t.classList.add('show')
+  setTimeout(() => t.classList.remove('show'), 2500)
+}
+
+// ════════════════════════════════════
+//  INIT
+// ════════════════════════════════════
+if (sessionStorage.getItem('cqip_auth') === '1') {
+  showDashboard()
+}
+</script>
+</body>
+</html>

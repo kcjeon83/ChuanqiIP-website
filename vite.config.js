@@ -6,6 +6,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main:   resolve(__dirname, 'index.html'),
+        admin:  resolve(__dirname, 'admin/index.html'),
         news1:  resolve(__dirname, 'news/mir2-25th.html'),
         news2:  resolve(__dirname, 'news/mir2-update.html'),
         news3:  resolve(__dirname, 'news/mir2-field.html'),
