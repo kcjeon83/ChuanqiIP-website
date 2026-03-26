@@ -1,5 +1,24 @@
 import './style.css'
 
+// ─── 0. HERO VIDEO CROSSFADE ───
+const vid1 = document.getElementById('heroVid1')
+const vid2 = document.getElementById('heroVid2')
+
+if (vid1 && vid2) {
+  vid1.addEventListener('ended', () => {
+    vid2.currentTime = 0
+    vid2.play()
+    vid1.style.opacity = '0'
+    vid2.style.opacity = '0.7'
+  })
+  vid2.addEventListener('ended', () => {
+    vid1.currentTime = 0
+    vid1.play()
+    vid2.style.opacity = '0'
+    vid1.style.opacity = '0.7'
+  })
+}
+
 // ─── 1. 3D LOGO MOUSE PARALLAX ───
 const logoImg = document.getElementById('heroLogoImg')
 let logoTargetX = 0, logoTargetY = 0
