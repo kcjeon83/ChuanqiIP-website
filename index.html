@@ -20,8 +20,8 @@
       </ul>
       <div class="nav-actions">
         <div class="nav-lang">
-          <a href="#" class="active" onclick="event.preventDefault()">KR</a>
-          <a href="#" onclick="event.preventDefault()">EN</a>
+          <a href="#" id="langKR" class="active" onclick="event.preventDefault()">KR</a>
+          <a href="#" id="langEN" onclick="event.preventDefault()">EN</a>
         </div>
         <a href="https://www.youtube.com/@thelegendofmir" target="_blank" rel="noopener" class="nav-yt" aria-label="YouTube">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -325,13 +325,13 @@
       </svg>
     </div>
     <div class="footer-info">
-      <div style="margin-bottom: 6px; font-size:12px; letter-spacing:1px; color:rgba(240,238,232,0.5);">
+      <div id="footerAddress" style="margin-bottom: 6px; font-size:12px; letter-spacing:1px; color:rgba(240,238,232,0.5);">
         성남시 분당구 대왕판교로644번길 49 위믹스타워 6F
       </div>
       <div style="margin-bottom: 8px;">
-        <a href="https://mir2-onestop.mironline.co.kr/support/terms?termsCategory=privacy" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='#c9a44a'" onmouseout="this.style.color='inherit'">개인정보처리방침</a>
+        <a href="https://mir2-onestop.mironline.co.kr/support/terms?termsCategory=privacy" target="_blank" rel="noopener" id="footerPrivacy" style="color:inherit; text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='#c9a44a'" onmouseout="this.style.color='inherit'">개인정보처리방침</a>
         &nbsp;·&nbsp;
-        <a href="https://mir2-onestop.mironline.co.kr/support/terms?termsCategory=service" target="_blank" rel="noopener" style="color:inherit; text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='#c9a44a'" onmouseout="this.style.color='inherit'">이용약관</a>
+        <a href="https://mir2-onestop.mironline.co.kr/support/terms?termsCategory=service" target="_blank" rel="noopener" id="footerTerms" style="color:inherit; text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='#c9a44a'" onmouseout="this.style.color='inherit'">이용약관</a>
       </div>
       <div>COPYRIGHT © 2026 CHUANQI IP Co., Ltd. ALL RIGHTS RESERVED.</div>
     </div>
