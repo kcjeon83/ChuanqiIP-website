@@ -371,8 +371,43 @@
 // ════════════════════════════════════
 //  CONFIG
 // ════════════════════════════════════
-const PASS = 'chuanqi2026'
+const PASS    = 'chuanqi2026'
 const CMS_KEY = 'cqip_cms'
+
+// ── Supabase 설정 ──────────────────
+// supabase.com → 프로젝트 → Settings → API → 아래 값 붙여넣기
+const SB_URL = 'https://caxovzjyenejvbmeuxzc.supabase.co'
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNheG92emp5ZW5lanZibWV1eHpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1Njk2MzAsImV4cCI6MjA5MDE0NTYzMH0.Iow-QbiW0Bd8KSGlwgDeaI00-ObTkGOQ8JTXw_UND9E'
+// ──────────────────────────────────
+
+const SB_CONFIGURED = SB_URL && !SB_URL.includes('YOUR_PROJECT')
+
+async function dbLoad() {
+  if (!SB_CONFIGURED) return null
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/cms_content?id=eq.main&select=data`, {
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+    })
+    if (!res.ok) return null
+    const rows = await res.json()
+    return rows[0]?.data ?? null
+  } catch { return null }
+}
+
+async function dbSave(data) {
+  if (!SB_CONFIGURED) return
+  const res = await fetch(`${SB_URL}/rest/v1/cms_content`, {
+    method: 'POST',
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': `Bearer ${SB_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=merge-duplicates,return=minimal'
+    },
+    body: JSON.stringify({ id: 'main', data, updated_at: new Date().toISOString() })
+  })
+  if (!res.ok) throw new Error(await res.text())
+}
 
 const DEFAULTS = {
   hero: {
@@ -460,23 +495,31 @@ const DEFAULTS = {
 // ════════════════════════════════════
 let cms = {}
 
-function loadCMS() {
+async function loadCMS() {
+  // 1. DB에서 먼저 시도
+  try {
+    const dbData = await dbLoad()
+    if (dbData) {
+      cms = deepMerge(JSON.parse(JSON.stringify(DEFAULTS)), dbData)
+      localStorage.setItem(CMS_KEY, JSON.stringify(cms))
+      return
+    }
+  } catch(e) {}
+  // 2. localStorage fallback
   try {
     const s = localStorage.getItem(CMS_KEY)
     if (s) {
-      const saved = JSON.parse(s)
-      // Deep merge: saved overrides defaults
-      cms = deepMerge(JSON.parse(JSON.stringify(DEFAULTS)), saved)
-    } else {
-      cms = JSON.parse(JSON.stringify(DEFAULTS))
+      cms = deepMerge(JSON.parse(JSON.stringify(DEFAULTS)), JSON.parse(s))
+      return
     }
-  } catch(e) {
-    cms = JSON.parse(JSON.stringify(DEFAULTS))
-  }
+  } catch(e) {}
+  // 3. 기본값
+  cms = JSON.parse(JSON.stringify(DEFAULTS))
 }
 
-function saveCMS() {
+async function saveCMS() {
   localStorage.setItem(CMS_KEY, JSON.stringify(cms))
+  if (SB_CONFIGURED) await dbSave(cms)
 }
 
 function deepMerge(target, source) {
@@ -511,12 +554,20 @@ function logout() {
   document.getElementById('pwInput').value = ''
 }
 
-function showDashboard() {
+async function showDashboard() {
   document.getElementById('loginWrap').style.display = 'none'
   document.getElementById('dashboard').classList.remove('hidden')
-  loadCMS()
   buildForms()
+  // DB 로딩 표시
+  const loadMsg = document.createElement('div')
+  loadMsg.id = 'dbLoadMsg'
+  loadMsg.style.cssText = 'position:fixed;top:16px;right:16px;background:#1a1a24;border:1px solid rgba(201,164,74,0.3);color:rgba(201,164,74,0.8);padding:10px 18px;font-size:12px;letter-spacing:1px;z-index:9999'
+  loadMsg.textContent = 'DB 로딩 중...'
+  document.body.appendChild(loadMsg)
+  await loadCMS()
+  loadMsg.remove()
   populateForms()
+  if (SB_CONFIGURED) showToast('DB 연결됨 ✓')
 }
 
 // ════════════════════════════════════
@@ -821,7 +872,7 @@ function populateForms() {
 // ════════════════════════════════════
 //  SAVE SECTIONS
 // ════════════════════════════════════
-function saveSection(section) {
+async function saveSection(section) {
   switch(section) {
     case 'hero':
       cms.hero.subKr = getVal('h_subKr')
@@ -879,14 +930,19 @@ function saveSection(section) {
       cms.contact.addrEn = getVal('c_addrEn')
       break
   }
-  saveCMS()
-  showToast('저장되었습니다 ✓')
+  try {
+    await saveCMS()
+    showToast(SB_CONFIGURED ? 'DB 저장 완료 ✓' : '로컬 저장 완료 ✓')
+  } catch(e) {
+    showToast('DB 저장 실패 — 로컬에만 저장됨')
+    localStorage.setItem(CMS_KEY, JSON.stringify(cms))
+  }
 }
 
-function resetSection(section) {
+async function resetSection(section) {
   if (!confirm(`'${section.toUpperCase()}' 섹션을 기본값으로 초기화하시겠습니까?`)) return
   cms[section] = JSON.parse(JSON.stringify(DEFAULTS[section]))
-  saveCMS()
+  try { await saveCMS() } catch {}
   populateForms()
   showToast('초기화되었습니다', true)
 }
