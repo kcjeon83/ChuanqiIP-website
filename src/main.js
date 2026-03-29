@@ -1,9 +1,26 @@
 import './style.css'
 
 // ─── CMS LOADER ───
-const cqipCMS = (() => {
+// 1차: localStorage (즉시 로드)
+let cqipCMS = (() => {
   try { const s = localStorage.getItem('cqip_cms'); return s ? JSON.parse(s) : null } catch { return null }
 })()
+
+// 2차: DB에서 비동기 로드 후 반영
+import('./db.js').then(async ({ dbLoad, isConfigured }) => {
+  if (!isConfigured) return
+  const data = await dbLoad()
+  if (!data) return
+  // localStorage 갱신
+  localStorage.setItem('cqip_cms', JSON.stringify(data))
+  cqipCMS = data
+  // DOM이 이미 렌더됐으면 이미지/내용 재적용
+  if (document.readyState !== 'loading') {
+    applyCMSImages()
+    // 현재 언어로 텍스트 재적용
+    if (typeof setLang === 'function') setLang(currentLang)
+  }
+}).catch(() => {})
 
 function applyCMSImages() {
   if (!cqipCMS) return
