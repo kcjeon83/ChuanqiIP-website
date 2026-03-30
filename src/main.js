@@ -388,35 +388,38 @@ function buildI18n() {
   // CMS 오버라이드
   if (cqipCMS) {
     const c = cqipCMS
-    if (c.hero?.subKr) base.kr.heroSub = c.hero.subKr.replace(/\n/g, '<br>')
-    if (c.hero?.subEn) base.en.heroSub = c.hero.subEn.replace(/\n/g, '<br>')
+    const has = v => v != null  // 빈 문자열("")도 반영, undefined/null만 제외
+    if (c.hero) {
+      if (has(c.hero.subKr)) base.kr.heroSub = c.hero.subKr.replace(/\n/g, '<br>')
+      if (has(c.hero.subEn)) base.en.heroSub = c.hero.subEn.replace(/\n/g, '<br>')
+    }
     if (c.games) {
       c.games.forEach((g, i) => {
-        if (g.descKr) base.kr.gameDescs[i] = g.descKr
-        if (g.descEn) base.en.gameDescs[i] = g.descEn
+        if (has(g.descKr)) base.kr.gameDescs[i] = g.descKr
+        if (has(g.descEn)) base.en.gameDescs[i] = g.descEn
       })
     }
     if (c.recruit) {
-      if (c.recruit.bodyKr) base.kr.recruitBody = c.recruit.bodyKr.replace(/\n/g, '<br>')
-      if (c.recruit.bodyEn) base.en.recruitBody = c.recruit.bodyEn.replace(/\n/g, '<br>')
-      if (c.recruit.btnKr)  base.kr.recruitBtn  = c.recruit.btnKr
-      if (c.recruit.btnEn)  base.en.recruitBtn  = c.recruit.btnEn
+      if (has(c.recruit.bodyKr)) base.kr.recruitBody = c.recruit.bodyKr.replace(/\n/g, '<br>')
+      if (has(c.recruit.bodyEn)) base.en.recruitBody = c.recruit.bodyEn.replace(/\n/g, '<br>')
+      if (has(c.recruit.btnKr))  base.kr.recruitBtn  = c.recruit.btnKr
+      if (has(c.recruit.btnEn))  base.en.recruitBtn  = c.recruit.btnEn
       c.recruit.perks?.forEach((p, i) => {
-        if (p.kr) base.kr.perks[i] = p.kr
-        if (p.en) base.en.perks[i] = p.en
+        if (has(p.kr)) base.kr.perks[i] = p.kr
+        if (has(p.en)) base.en.perks[i] = p.en
       })
     }
     if (c.news) {
       c.news.forEach((n, i) => {
         if (i < 4) {
-          if (n.titleKr) base.kr.newsTitles[i] = n.titleKr
-          if (n.titleEn) base.en.newsTitles[i] = n.titleEn
+          if (has(n.titleKr)) base.kr.newsTitles[i] = n.titleKr
+          if (has(n.titleEn)) base.en.newsTitles[i] = n.titleEn
         }
       })
     }
     if (c.contact) {
-      if (c.contact.addrKr) base.kr.address = c.contact.addrKr
-      if (c.contact.addrEn) base.en.address = c.contact.addrEn
+      if (has(c.contact.addrKr)) base.kr.address = c.contact.addrKr
+      if (has(c.contact.addrEn)) base.en.address = c.contact.addrEn
     }
   }
   i18n = base
