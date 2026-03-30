@@ -938,10 +938,19 @@ body.light-theme {
   background: #ffffff;
   color: #0c0c12;
 }
-body.light-theme .nav-logo { color: #0c0c12; }
-body.light-theme .nav-links a { color: rgba(12,12,18,0.6); }
+body.light-theme nav {
+  background: rgba(5,5,8,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+body.light-theme nav.scrolled {
+  background: rgba(5,5,8,0.92);
+}
+body.light-theme .nav-logo { color: #f0eee8; }
+body.light-theme .nav-links a { color: rgba(240,238,232,0.65); }
 body.light-theme .nav-links a:hover { color: var(--gold); }
-body.light-theme nav.scrolled { background: rgba(255,255,255,0.75); }
+body.light-theme .nav-lang a { color: rgba(240,238,232,0.55); }
+body.light-theme .nav-yt { color: rgba(240,238,232,0.5); }
 body.light-theme .showcase { background: #ffffff !important; }
 body.light-theme .contact-section { background: #f4f4f6; }
 body.light-theme .marquee-section { background: #ececf1; }
