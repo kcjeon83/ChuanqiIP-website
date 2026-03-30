@@ -471,6 +471,23 @@ function setLang(lang) {
 document.getElementById('langKR')?.addEventListener('click', () => setLang('kr'))
 document.getElementById('langEN')?.addEventListener('click', () => setLang('en'))
 
+// ─── THEME TOGGLE ───
+const themeToggle = document.getElementById('themeToggle')
+const themeLabel  = document.getElementById('themeLabel')
+let isLight = localStorage.getItem('cqip_theme') === 'light'
+
+function applyTheme() {
+  document.body.classList.toggle('light-theme', isLight)
+  if (themeLabel) themeLabel.textContent = isLight ? 'DARK' : 'LIGHT'
+}
+applyTheme()
+
+themeToggle?.addEventListener('click', () => {
+  isLight = !isLight
+  localStorage.setItem('cqip_theme', isLight ? 'light' : 'dark')
+  applyTheme()
+})
+
 // DB 로드 후 전체 재빌드
 function rebuildAll() {
   buildI18n()

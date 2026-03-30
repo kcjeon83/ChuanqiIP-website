@@ -885,6 +885,75 @@ section { position: relative; }
 .social-link:hover { color: var(--gold); }
 .social-link:hover::after { width: 100%; }
 
+/* ─── THEME TOGGLE ─── */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+}
+.theme-toggle-track {
+  width: 32px;
+  height: 18px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 9px;
+  position: relative;
+  transition: background 0.3s;
+}
+.theme-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  transition: transform 0.3s, background 0.3s;
+}
+body.light-theme .theme-toggle-track { background: rgba(255,255,255,0.15); }
+body.light-theme .theme-toggle-thumb { transform: translateX(14px); background: var(--gold); }
+.theme-toggle-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(240,238,232,0.4);
+  font-weight: 600;
+  transition: color 0.3s;
+}
+body.light-theme .theme-toggle-label { color: rgba(5,5,8,0.4); }
+
+/* ─── LIGHT THEME ─── */
+body.light-theme {
+  --black:       #ffffff;
+  --dark:        #f4f4f6;
+  --surface:     #ececf1;
+  --surface2:    #e2e2ea;
+  --border:      rgba(0,0,0,0.08);
+  --white:       #0c0c12;
+  --white-dim:   rgba(12,12,18,0.6);
+  --white-faint: rgba(12,12,18,0.1);
+  background: #ffffff;
+  color: #0c0c12;
+}
+body.light-theme .nav-logo { color: #0c0c12; }
+body.light-theme .nav-links a { color: rgba(12,12,18,0.6); }
+body.light-theme .nav-links a:hover { color: var(--gold); }
+body.light-theme nav.scrolled { background: rgba(255,255,255,0.75); }
+body.light-theme .showcase { background: #ffffff !important; }
+body.light-theme .contact-section { background: #f4f4f6; }
+body.light-theme .marquee-section { background: #ececf1; }
+body.light-theme .hero-video { opacity: 0.45; }
+/* 푸터는 라이트 모드에서도 블랙 유지 */
+body.light-theme footer {
+  background: #050508;
+  border-top-color: rgba(255,255,255,0.07);
+}
+body.light-theme .footer-info { color: rgba(240,238,232,0.3); }
+body.light-theme .theme-toggle-label { color: rgba(240,238,232,0.4); }
+
 /* ─── FOOTER ─── */
 footer {
   padding: 40px 60px;
