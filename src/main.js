@@ -10,16 +10,11 @@ let cqipCMS = (() => {
 import('./db.js').then(async ({ dbLoad, isConfigured }) => {
   if (!isConfigured) return
   const data = await dbLoad()
-  if (!data) return
-  // localStorage 갱신
+  if (!data || Object.keys(data).length === 0) return
   localStorage.setItem('cqip_cms', JSON.stringify(data))
   cqipCMS = data
-  // DOM이 이미 렌더됐으면 이미지/내용 재적용
-  if (document.readyState !== 'loading') {
-    applyCMSImages()
-    // 현재 언어로 텍스트 재적용
-    if (typeof setLang === 'function') setLang(currentLang)
-  }
+  // i18n, gameStats 재빌드 후 DOM 전체 재적용
+  rebuildAll()
 }).catch(() => {})
 
 function applyCMSImages() {
@@ -215,7 +210,9 @@ const gameDescs = [
   '더 넓어진 전장과 발전된 시스템으로 진화를 이뤄냈습니다. 향상된 그래픽, 정교해진 전투, 다채로운 콘텐츠를 통해 한층 깊이 있는 무협 MMORPG의 완성도를 새롭게 정의합니다.'
 ]
 
-const gameStats = (() => {
+let gameStats = []
+
+function buildGameStats() {
   const base = [
     { players: '2억+',  playersLabel: 'Total Players', revenue: '2.2조', revenueLabel: 'Total Revenue', showRevenue: true,  service: '25y', serviceLabel: 'In Service', color: '#c0392b' },
     { players: '60만+', playersLabel: 'CONCURRENTS',   revenue: '2.2조', revenueLabel: 'Total Revenue', showRevenue: false, service: '23y', serviceLabel: 'In Service', color: '#8e44ad' },
@@ -224,18 +221,19 @@ const gameStats = (() => {
   if (cqipCMS?.games) {
     cqipCMS.games.forEach((g, i) => {
       if (!base[i]) return
-      if (g.players)       base[i].players       = g.players
-      if (g.playersLabel)  base[i].playersLabel   = g.playersLabel
-      if (g.revenue)       base[i].revenue        = g.revenue
-      if (g.revenueLabel)  base[i].revenueLabel   = g.revenueLabel
+      if (g.players)       base[i].players      = g.players
+      if (g.playersLabel)  base[i].playersLabel  = g.playersLabel
+      if (g.revenue)       base[i].revenue       = g.revenue
+      if (g.revenueLabel)  base[i].revenueLabel  = g.revenueLabel
       if (g.showRevenue !== undefined) base[i].showRevenue = g.showRevenue
-      if (g.service)       base[i].service        = g.service
-      if (g.serviceLabel)  base[i].serviceLabel   = g.serviceLabel
-      if (g.color)         base[i].color          = g.color
+      if (g.service)       base[i].service       = g.service
+      if (g.serviceLabel)  base[i].serviceLabel  = g.serviceLabel
+      if (g.color)         base[i].color         = g.color
     })
   }
-  return base
-})()
+  gameStats = base
+}
+buildGameStats()
 
 const statPlayers      = document.getElementById('statPlayers')
 const statPlayersLabel = document.getElementById('statPlayersLabel')
@@ -326,7 +324,9 @@ updateStats(0)
 startAutoRoll()
 
 // ─── 7. I18N ───
-const i18n = (() => {
+let i18n = {}
+
+function buildI18n() {
   const base = {
   kr: {
     gameDescs: [
@@ -419,8 +419,9 @@ const i18n = (() => {
       if (c.contact.addrEn) base.en.address = c.contact.addrEn
     }
   }
-  return base
-})()
+  i18n = base
+}
+buildI18n()
 
 function setLang(lang) {
   currentLang = lang
@@ -466,6 +467,15 @@ function setLang(lang) {
 
 document.getElementById('langKR')?.addEventListener('click', () => setLang('kr'))
 document.getElementById('langEN')?.addEventListener('click', () => setLang('en'))
+
+// DB 로드 후 전체 재빌드
+function rebuildAll() {
+  buildI18n()
+  buildGameStats()
+  applyCMSImages()
+  setLang(currentLang)
+  updateStats(current)
+}
 
 // ─── 8. RECRUIT CARD ROLLING ───
 const rBoxes   = Array.from(document.querySelectorAll('.recruit-visual .recruit-box'))
